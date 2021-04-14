@@ -1,6 +1,6 @@
-# Default code reviewers picked from top 3 or more developers.
-# Please update this list if you find better candidates.
-jianj@google.com
-marcone@google.com
-jzern@google.com
+jansene@google.com
+bohu@google.com
+lfy@google.com
+wangzfei@google.com
+# Previous owners to assist with codec changes.
 vigneshv@google.com
