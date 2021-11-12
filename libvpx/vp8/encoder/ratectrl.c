@@ -349,15 +349,19 @@ static void calc_iframe_target_size(VP8_COMP *cpi) {
   }
 
   if (cpi->oxcf.rc_max_intra_bitrate_pct) {
-    unsigned int max_rate =
-        cpi->per_frame_bandwidth * cpi->oxcf.rc_max_intra_bitrate_pct / 100;
+    unsigned int max_rate;
+    // This product may overflow unsigned int
+    uint64_t product = cpi->per_frame_bandwidth;
+    product *= cpi->oxcf.rc_max_intra_bitrate_pct;
+    product /= 100;
+    max_rate = (unsigned int)VPXMIN(INT_MAX, product);
 
     if (target > max_rate) target = max_rate;
   }
 
   cpi->this_frame_target = (int)target;
 
-  /* TODO: if we separate rate targeting from Q targetting, move this.
+  /* TODO: if we separate rate targeting from Q targeting, move this.
    * Reset the active worst quality to the baseline value for key frames.
    */
   if (cpi->pass != 2) cpi->active_worst_quality = cpi->worst_quality;
