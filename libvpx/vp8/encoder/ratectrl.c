@@ -349,12 +349,8 @@ static void calc_iframe_target_size(VP8_COMP *cpi) {
   }
 
   if (cpi->oxcf.rc_max_intra_bitrate_pct) {
-    unsigned int max_rate;
-    // This product may overflow unsigned int
-    uint64_t product = cpi->per_frame_bandwidth;
-    product *= cpi->oxcf.rc_max_intra_bitrate_pct;
-    product /= 100;
-    max_rate = (unsigned int)VPXMIN(INT_MAX, product);
+    unsigned int max_rate =
+        cpi->per_frame_bandwidth * cpi->oxcf.rc_max_intra_bitrate_pct / 100;
 
     if (target > max_rate) target = max_rate;
   }

@@ -5229,8 +5229,6 @@ bool Projection::Parse(IMkvReader* reader, long long start, long long size,
 
       projection_ptr->type = static_cast<ProjectionType>(projection_type);
     } else if (child_id == libwebm::kMkvProjectionPrivate) {
-      if (projection_ptr->private_data != NULL)
-        return false;
       unsigned char* data = SafeArrayAlloc<unsigned char>(1, child_size);
 
       if (data == NULL)
@@ -5288,7 +5286,6 @@ VideoTrack::VideoTrack(Segment* pSegment, long long element_start,
       m_projection(NULL) {}
 
 VideoTrack::~VideoTrack() {
-  delete[] m_colour_space;
   delete m_colour;
   delete m_projection;
 }
@@ -5310,7 +5307,7 @@ long VideoTrack::Parse(Segment* pSegment, const Info& info,
   long long stereo_mode = 0;
 
   double rate = 0.0;
-  std::unique_ptr<char[]> colour_space_ptr;
+  char* colour_space = NULL;
 
   IMkvReader* const pReader = pSegment->m_pReader;
 
@@ -5387,11 +5384,9 @@ long VideoTrack::Parse(Segment* pSegment, const Info& info,
         projection_ptr.reset(projection);
       }
     } else if (id == libwebm::kMkvColourSpace) {
-      char* colour_space = NULL;
       const long status = UnserializeString(pReader, pos, size, colour_space);
       if (status < 0)
         return status;
-      colour_space_ptr.reset(colour_space);
     }
 
     pos += size;  // consume payload
@@ -5423,7 +5418,7 @@ long VideoTrack::Parse(Segment* pSegment, const Info& info,
   pTrack->m_stereo_mode = stereo_mode;
   pTrack->m_rate = rate;
   pTrack->m_colour = colour_ptr.release();
-  pTrack->m_colour_space = colour_space_ptr.release();
+  pTrack->m_colour_space = colour_space;
   pTrack->m_projection = projection_ptr.release();
 
   pResult = pTrack;

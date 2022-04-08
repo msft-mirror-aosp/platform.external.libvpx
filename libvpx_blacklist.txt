@@ -1,3 +1,6 @@
+[cfi]
+src:*external/libvpx/*
+
 [integer]
 # Performance related
 fun:read_bool
