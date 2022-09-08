@@ -156,7 +156,6 @@ LIBVPX_TEST_SRCS-yes                   += superframe_test.cc
 LIBVPX_TEST_SRCS-yes                   += tile_independence_test.cc
 LIBVPX_TEST_SRCS-yes                   += vp9_boolcoder_test.cc
 LIBVPX_TEST_SRCS-yes                   += vp9_encoder_parms_get_to_decoder.cc
-LIBVPX_TEST_SRCS-yes                   += vp9_roi_test.cc
 endif
 
 LIBVPX_TEST_SRCS-yes                   += convolve_test.cc
@@ -214,11 +213,9 @@ endif
 TEST_INTRA_PRED_SPEED_SRCS-yes := test_intra_pred_speed.cc
 TEST_INTRA_PRED_SPEED_SRCS-yes += ../md5_utils.h ../md5_utils.c
 
-RC_INTERFACE_TEST_SRCS-yes := test_rc_interface.cc
-RC_INTERFACE_TEST_SRCS-$(CONFIG_VP9_ENCODER) += vp9_ratectrl_rtc_test.cc
-RC_INTERFACE_TEST_SRCS-$(CONFIG_VP8_ENCODER) += vp8_ratectrl_rtc_test.cc
-RC_INTERFACE_TEST_SRCS-$(CONFIG_ENCODERS) += encode_test_driver.cc
-RC_INTERFACE_TEST_SRCS-$(CONFIG_ENCODERS) += encode_test_driver.h
+RC_INTERFACE_TEST_SRCS-$(CONFIG_VP9_ENCODER) := ratectrl_rtc_test.cc
+RC_INTERFACE_TEST_SRCS-$(CONFIG_VP9_ENCODER) += encode_test_driver.cc
+RC_INTERFACE_TEST_SRCS-$(CONFIG_VP9_ENCODER) += encode_test_driver.h
 RC_INTERFACE_TEST_SRCS-yes += decode_test_driver.cc
 RC_INTERFACE_TEST_SRCS-yes += decode_test_driver.h
 RC_INTERFACE_TEST_SRCS-yes += codec_factory.h

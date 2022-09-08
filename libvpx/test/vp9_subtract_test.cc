@@ -152,9 +152,4 @@ INSTANTIATE_TEST_SUITE_P(VSX, VP9SubtractBlockTest,
                          ::testing::Values(vpx_subtract_block_vsx));
 #endif
 
-#if HAVE_LSX
-INSTANTIATE_TEST_SUITE_P(LSX, VP9SubtractBlockTest,
-                         ::testing::Values(vpx_subtract_block_lsx));
-#endif
-
 }  // namespace vp9

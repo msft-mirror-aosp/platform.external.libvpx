@@ -1,6 +1,6 @@
 @ This file was created from a .asm file
 @  using the ads2gas.pl script.
-.syntax unified
+	.syntax unified
 @
 @  Copyright (c) 2013 The WebM project authors. All Rights Reserved.
 @
@@ -11,18 +11,18 @@
 @  be found in the AUTHORS file in the root of the source tree.
 @
 
-    .global vpx_lpf_horizontal_4_neon
-    .type vpx_lpf_horizontal_4_neon, function
-    .global vpx_lpf_vertical_4_neon
-    .type vpx_lpf_vertical_4_neon, function
-    .global vpx_lpf_horizontal_4_dual_neon
-    .type vpx_lpf_horizontal_4_dual_neon, function
-    .global vpx_lpf_vertical_4_dual_neon
-    .type vpx_lpf_vertical_4_dual_neon, function
-    .arm
+    .global vpx_lpf_horizontal_4_neon 
+	.type vpx_lpf_horizontal_4_neon, function
+    .global vpx_lpf_vertical_4_neon 
+	.type vpx_lpf_vertical_4_neon, function
+    .global vpx_lpf_horizontal_4_dual_neon 
+	.type vpx_lpf_horizontal_4_dual_neon, function
+    .global vpx_lpf_vertical_4_dual_neon 
+	.type vpx_lpf_vertical_4_dual_neon, function
+   .arm
 
-    .text
-    .p2align 2
+.text
+.p2align 2
 
 @ Currently vpx only works on iterations 8 at a time. The vp8 loop filter
 @ works on 16 iterations at a time.
@@ -38,7 +38,8 @@
 @ r2    const uint8_t *blimit,
 @ r3    const uint8_t *limit,
 @ sp    const uint8_t *thresh,
-vpx_lpf_horizontal_4_neon: @ PROC
+_vpx_lpf_horizontal_4_neon:
+	vpx_lpf_horizontal_4_neon: @ PROC
     push        {lr}
 
     vld1.8      {d0[]}, [r2]               @ duplicate *blimit
@@ -71,7 +72,7 @@ vpx_lpf_horizontal_4_neon: @ PROC
     vst1.u8     {d7}, [r3,:64], r1          @ store oq1
 
     pop         {pc}
-.size vpx_lpf_horizontal_4_neon, .-vpx_lpf_horizontal_4_neon    @ ENDP        @ |vpx_lpf_horizontal_4_neon|
+	.size vpx_lpf_horizontal_4_neon, .-vpx_lpf_horizontal_4_neon    @ ENDP        @ |vpx_lpf_horizontal_4_neon|
 
 @ Currently vpx only works on iterations 8 at a time. The vp8 loop filter
 @ works on 16 iterations at a time.
@@ -87,7 +88,8 @@ vpx_lpf_horizontal_4_neon: @ PROC
 @ r2    const uint8_t *blimit,
 @ r3    const uint8_t *limit,
 @ sp    const uint8_t *thresh,
-vpx_lpf_vertical_4_neon: @ PROC
+_vpx_lpf_vertical_4_neon:
+	vpx_lpf_vertical_4_neon: @ PROC
     push        {lr}
 
     vld1.8      {d0[]}, [r2]              @ duplicate *blimit
@@ -138,7 +140,7 @@ vpx_lpf_vertical_4_neon: @ PROC
     vst4.8      {d4[7], d5[7], d6[7], d7[7]}, [r0]
 
     pop         {pc}
-.size vpx_lpf_vertical_4_neon, .-vpx_lpf_vertical_4_neon    @ ENDP        @ |vpx_lpf_vertical_4_neon|
+	.size vpx_lpf_vertical_4_neon, .-vpx_lpf_vertical_4_neon    @ ENDP        @ |vpx_lpf_vertical_4_neon|
 
 @ void filter4_8();
 @ This is a helper function for the loopfilters. The invidual functions do the
@@ -164,7 +166,8 @@ vpx_lpf_vertical_4_neon: @ PROC
 @ d5    op0
 @ d6    oq0
 @ d7    oq1
-filter4_8: @ PROC
+_filter4_8:
+	filter4_8: @ PROC
     @ filter_mask
     vabd.u8     d19, d3, d4                 @ m1 = abs(p3 - p2)
     vabd.u8     d20, d4, d5                 @ m2 = abs(p2 - p1)
@@ -254,7 +257,7 @@ filter4_8: @ PROC
     veor        d7, d20, d18                @ *oq1 = u^0x80
 
     bx          lr
-.size filter4_8, .-filter4_8    @ ENDP        @ |filter4_8|
+	.size filter4_8, .-filter4_8    @ ENDP        @ |filter4_8|
 
 @void vpx_lpf_horizontal_4_dual_neon(uint8_t *s, int p,
 @                                    const uint8_t *blimit0,
@@ -272,7 +275,8 @@ filter4_8: @ PROC
 @ sp+8  const uint8_t *limit1,
 @ sp+12 const uint8_t *thresh1,
 
-vpx_lpf_horizontal_4_dual_neon: @ PROC
+_vpx_lpf_horizontal_4_dual_neon:
+	vpx_lpf_horizontal_4_dual_neon: @ PROC
     push        {lr}
 
     ldr         r12, [sp, #4]              @ load thresh0
@@ -319,7 +323,7 @@ vpx_lpf_horizontal_4_dual_neon: @ PROC
     vpop        {d8-d15}                   @ restore neon registers
 
     pop         {pc}
-.size vpx_lpf_horizontal_4_dual_neon, .-vpx_lpf_horizontal_4_dual_neon    @ ENDP        @ |vpx_lpf_horizontal_4_dual_neon|
+	.size vpx_lpf_horizontal_4_dual_neon, .-vpx_lpf_horizontal_4_dual_neon    @ ENDP        @ |vpx_lpf_horizontal_4_dual_neon|
 
 @void vpx_lpf_vertical_4_dual_neon(uint8_t *s, int p,
 @                                  const uint8_t *blimit0,
@@ -337,7 +341,8 @@ vpx_lpf_horizontal_4_dual_neon: @ PROC
 @ sp+8  const uint8_t *limit1,
 @ sp+12 const uint8_t *thresh1,
 
-vpx_lpf_vertical_4_dual_neon: @ PROC
+_vpx_lpf_vertical_4_dual_neon:
+	vpx_lpf_vertical_4_dual_neon: @ PROC
     push        {lr}
 
     ldr         r12, [sp, #4]              @ load thresh0
@@ -434,7 +439,7 @@ vpx_lpf_vertical_4_dual_neon: @ PROC
     vpop        {d8-d15}                   @ restore neon registers
 
     pop         {pc}
-.size vpx_lpf_vertical_4_dual_neon, .-vpx_lpf_vertical_4_dual_neon    @ ENDP        @ |vpx_lpf_vertical_4_dual_neon|
+	.size vpx_lpf_vertical_4_dual_neon, .-vpx_lpf_vertical_4_dual_neon    @ ENDP        @ |vpx_lpf_vertical_4_dual_neon|
 
 @ void filter4_16();
 @ This is a helper function for the loopfilters. The invidual functions do the
@@ -459,7 +464,8 @@ vpx_lpf_vertical_4_dual_neon: @ PROC
 @ q6    op0
 @ q7    oq0
 @ q8    oq1
-filter4_16: @ PROC
+_filter4_16:
+	filter4_16: @ PROC
 
     @ filter_mask
     vabd.u8     q11, q3, q4                 @ m1 = abs(p3 - p2)
@@ -552,6 +558,6 @@ filter4_16: @ PROC
     veor        q8, q12, q10                @ *oq1 = u^0x80
 
     bx          lr
-.size filter4_16, .-filter4_16    @ ENDP        @ |filter4_16|
+	.size filter4_16, .-filter4_16    @ ENDP        @ |filter4_16|
 
-    .section .note.GNU-stack,"",%progbits
+	.section	.note.GNU-stack,"",%progbits
