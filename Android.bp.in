@@ -185,6 +185,28 @@ cc_library_headers {
     vendor_available: true,
     host_supported: true,
 
+    arch: {
+        arm: {
+            export_include_dirs: ["config/arm-neon"],
+        },
+
+        arm64: {
+            export_include_dirs: ["config/arm64"],
+        },
+
+        riscv64: {
+            export_include_dirs: ["config/generic"],
+        },
+
+        x86: {
+            export_include_dirs: ["config/x86"],
+        },
+
+        x86_64: {
+            export_include_dirs: ["config/x86_64"],
+        },
+    },
+
     export_include_dirs: ["."],
 }
 
