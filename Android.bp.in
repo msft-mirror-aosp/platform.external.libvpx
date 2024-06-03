@@ -52,13 +52,11 @@ cc_library {
     arch: {
         // configured to require the neon unit
         arm: {
-            neon: {
-                // Want arm, not thumb, optimized
-                instruction_set: "arm",
+            // Want arm, not thumb, optimized
+            instruction_set: "arm",
 
-                srcs: libvpx_arm_neon_c_srcs + libvpx_arm_neon_asm_srcs,
-                local_include_dirs: ["config/arm-neon"],
-            },
+            srcs: libvpx_arm_neon_c_srcs + libvpx_arm_neon_asm_srcs,
+            local_include_dirs: ["config/arm-neon"],
         },
 
         arm64: {
@@ -128,9 +126,7 @@ cc_fuzz {
     },
     arch: {
         arm: {
-            neon: {
-                local_include_dirs: ["config/arm-neon"],
-            },
+            local_include_dirs: ["config/arm-neon"],
         },
 
         arm64: {
@@ -164,9 +160,7 @@ cc_fuzz {
     },
     arch: {
         arm: {
-            neon: {
-                local_include_dirs: ["config/arm-neon"],
-            },
+            local_include_dirs: ["config/arm-neon"],
         },
 
         arm64: {
