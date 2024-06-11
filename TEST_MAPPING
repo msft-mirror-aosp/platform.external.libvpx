@@ -1,0 +1,12 @@
+{
+  "postsubmit": [
+    {
+      "name": "MctsMediaV2TestCases",
+      "options": [
+        {
+          "instrumentation-arg": "codec-filter:=c2\\.android\\.vp[89]"
+        }
+      ]
+    }
+  ]
+}
