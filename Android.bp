@@ -257,6 +257,15 @@ libvpx_arm_neon_asm_srcs = [
     "config/arm-neon/vpx_dsp/arm/vpx_convolve_copy_neon_asm.asm.S",
 ]
 
+libvpx_arm64_neon_dotprod_c_srcs = [
+    "vpx_dsp/arm/sad4d_neon_dotprod.c",
+    "vpx_dsp/arm/sad_neon_dotprod.c",
+    "vpx_dsp/arm/sse_neon_dotprod.c",
+    "vpx_dsp/arm/variance_neon_dotprod.c",
+    "vpx_dsp/arm/vpx_convolve8_neon_dotprod.c",
+    "vpx_dsp/arm/vpx_convolve_neon_dotprod.c",
+]
+
 libvpx_arm64_c_srcs = [
     "config/arm64/vpx_config.c",
     "vp8/common/alloccommon.c",
@@ -1215,6 +1224,26 @@ cc_defaults {
     },
 }
 
+cc_library_static {
+    name: "libvpx_neon_dotprod",
+    defaults: ["libvpx_defaults"],
+    host_supported: true,
+    vendor_available: true,
+    visibility: ["//visibility:private"],
+
+    cflags: [
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +dotprod",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: libvpx_arm64_neon_dotprod_c_srcs,
+        },
+    },
+}
+
 cc_library {
     name: "libvpx",
     defaults: ["libvpx_defaults"],
@@ -1233,6 +1262,9 @@ cc_library {
 
         arm64: {
             srcs: libvpx_arm64_c_srcs,
+            whole_static_libs: [
+                "libvpx_neon_dotprod",
+            ],
         },
 
         riscv64: {
