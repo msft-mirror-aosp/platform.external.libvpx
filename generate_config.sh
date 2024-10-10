@@ -145,8 +145,18 @@ function gen_source_list {
 
 # Extract a list of C sources from a libvpx_srcs.txt file
 # $1 - path to libvpx_srcs.txt
+# $2 - C file match pattern
+# $3 - Negative match pattern (default: none)
 function libvpx_srcs_txt_to_c_srcs {
-    grep ".c$" $1 | grep -v "^vpx_config.c$" | awk '$0="\""$0"\","' | sort
+  local match_pattern="$2"
+  local negative_patterns=(-e "^vpx_config\\.c$")
+  if [[ -n "$3" ]]; then
+    negative_patterns+=(-e "$3")
+  fi
+  grep "${match_pattern}" $1 \
+    | grep -v "${negative_patterns[@]}" \
+    | awk '$0="\""$0"\","' \
+    | sort
 }
 
 # Extract a list of ASM sources from a libvpx_srcs.txt file
@@ -167,8 +177,16 @@ function libvpx_srcs_txt_to_asm_S_srcs {
 function gen_bp_srcs {
   (
     varprefix=libvpx_${1//-/_}
+    local negative_pattern
+    if [[ "$1" == "arm64" ]]; then
+      negative_pattern="_neon_dotprod\\.c"
+      echo "${varprefix}_neon_dotprod_c_srcs = ["
+      libvpx_srcs_txt_to_c_srcs libvpx_srcs_$1.txt "_neon_dotprod\\.c"
+      echo "]"
+      echo
+    fi
     echo "${varprefix}_c_srcs = ["
-    libvpx_srcs_txt_to_c_srcs libvpx_srcs_$1.txt
+    libvpx_srcs_txt_to_c_srcs libvpx_srcs_$1.txt "\\.c$" "${negative_pattern}"
     echo "\"$LIBVPX_CONFIG_DIR/$1/vpx_config.c\","
     echo "]"
     if grep -qE ".asm(.S)?$" libvpx_srcs_$1.txt; then
@@ -210,7 +228,7 @@ intel="--disable-sse4_1 --disable-avx --disable-avx2 --disable-avx512 --as=yasm"
 gen_config_files x86 "--target=x86-linux-gcc ${intel} ${all_platforms}"
 gen_config_files x86_64 "--target=x86_64-linux-gcc ${intel} ${all_platforms}"
 gen_config_files arm-neon "--target=armv7-linux-gcc ${all_platforms}"
-arm64="--disable-neon_dotprod --disable-neon_i8mm"
+arm64="--disable-neon_i8mm"
 gen_config_files arm64 "--target=armv8-linux-gcc ${arm64} ${all_platforms} \
   --enable-runtime-cpu-detect"
 gen_config_files generic "--target=generic-gnu ${all_platforms}"
