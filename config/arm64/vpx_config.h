@@ -19,7 +19,7 @@
 #define VPX_ARCH_LOONGARCH 0
 #define HAVE_NEON_ASM 0
 #define HAVE_NEON 1
-#define HAVE_NEON_DOTPROD 0
+#define HAVE_NEON_DOTPROD 1
 #define HAVE_NEON_I8MM 0
 #define HAVE_SVE 0
 #define HAVE_MIPS32 0
