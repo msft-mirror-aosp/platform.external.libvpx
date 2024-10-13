@@ -80,6 +80,50 @@ cc_defaults {
     },
 }
 
+cc_library_static {
+    name: "libvpx_neon_dotprod",
+    defaults: ["libvpx_defaults"],
+    host_supported: true,
+    vendor_available: true,
+    visibility: ["//visibility:private"],
+
+    cflags: [
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +dotprod",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: libvpx_arm64_neon_dotprod_c_srcs,
+        },
+    },
+}
+
+cc_library_static {
+    name: "libvpx_neon_i8mm",
+    defaults: ["libvpx_defaults"],
+    host_supported: true,
+    vendor_available: true,
+    visibility: ["//visibility:private"],
+
+    cflags: [
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +dotprod",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +i8mm",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: libvpx_arm64_neon_i8mm_c_srcs,
+        },
+    },
+}
+
 cc_library {
     name: "libvpx",
     defaults: [ "libvpx_defaults" ],
@@ -98,6 +142,10 @@ cc_library {
 
         arm64: {
             srcs: libvpx_arm64_c_srcs,
+            whole_static_libs: [
+                "libvpx_neon_dotprod",
+                "libvpx_neon_i8mm",
+            ],
         },
 
         riscv64: {
