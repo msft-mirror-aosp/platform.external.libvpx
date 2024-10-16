@@ -180,6 +180,26 @@ cc_library {
     },
 }
 
+cc_library {
+    name: "libvpxrc",
+    defaults: [ "libvpx_defaults" ],
+    vendor_available: true,
+    static_libs: [ "libvpx" ],
+
+    arch: {
+        x86_64: {
+            srcs: libvpxrc_x86_64_c_srcs +
+                libvpxrc_x86_64_cc_srcs +
+                libvpxrc_x86_64_asm_srcs,
+            cflags: [
+                "-mssse3",
+            ],
+        },
+    },
+
+    export_include_dirs: ["."],
+}
+
 cc_library_headers {
     name: "libvpx_headers",
     vendor_available: true,
