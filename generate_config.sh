@@ -139,8 +139,9 @@ function gen_source_list {
   else
     config=$(print_config $1)
   fi
-  make libvpx_srcs.txt target=libs $config > /dev/null
+  make libvpx_srcs.txt libvpxrc_srcs.txt target=libs $config > /dev/null
   mv libvpx_srcs.txt libvpx_srcs_$1.txt
+  mv libvpxrc_srcs.txt libvpxrc_srcs_$1.txt
 }
 
 # Extract a list of C sources from a libvpx_srcs.txt file
@@ -157,6 +158,12 @@ function libvpx_srcs_txt_to_c_srcs {
     | grep -v "${negative_patterns[@]}" \
     | awk '$0="\""$0"\","' \
     | sort
+}
+
+# Extract a list of C++ sources from a libvpxrc_srcs.txt file
+# $1 - path to libvpxrc_srcs.txt
+function libvpxrc_srcs_txt_to_cc_srcs {
+  grep ".cc$" $1 | awk '$0="\""$0"\","' | sort
 }
 
 # Extract a list of ASM sources from a libvpx_srcs.txt file
@@ -176,6 +183,7 @@ function libvpx_srcs_txt_to_asm_S_srcs {
 # $1 - Config
 function gen_bp_srcs {
   (
+    # First collect the libvpx sources into variables.
     varprefix=libvpx_${1//-/_}
     local negative_pattern
     if [[ "$1" == "arm64" ]]; then
@@ -198,6 +206,26 @@ function gen_bp_srcs {
       libvpx_srcs_txt_to_asm_S_srcs libvpx_srcs_$1.txt
       echo "]"
     fi
+
+    # Now collect the libvpxrc sources into variables. Note that we're only
+    # interested in x86_64 for now, but this can be expanded later.
+    if [[ "$1" == "x86_64" ]]; then
+      varprefix=libvpxrc_${1//-/_}
+      echo
+      echo "${varprefix}_c_srcs = ["
+      libvpx_srcs_txt_to_c_srcs libvpxrc_srcs_$1.txt "\\.c$" ""
+      echo "]"
+      echo
+      echo "${varprefix}_cc_srcs = ["
+      libvpxrc_srcs_txt_to_cc_srcs libvpxrc_srcs_$1.txt "\\.cc$" ""
+      echo "]"
+      echo
+      echo "${varprefix}_asm_srcs = ["
+      libvpx_srcs_txt_to_asm_srcs libvpxrc_srcs_$1.txt
+      libvpx_srcs_txt_to_asm_S_srcs libvpxrc_srcs_$1.txt
+      echo "]"
+    fi
+
     echo
   ) > config_$1.bp
 }
