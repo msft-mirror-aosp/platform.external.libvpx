@@ -8,6 +8,9 @@ Date: Monday June 3 2024
 Branch: v1.14.1
 Commit: 12f3a2ac603e8f10742105519e0cd03c3b8f71dd
 
+Cherry-picks:
+24b568e6f libs.mk: Expose RC_RTC_SRCS as libvpxrc_srcs.txt
+
 Description:
 Contains the sources used to compile libvpx.
 
