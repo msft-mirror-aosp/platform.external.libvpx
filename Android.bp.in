@@ -80,6 +80,50 @@ cc_defaults {
     },
 }
 
+cc_library_static {
+    name: "libvpx_neon_dotprod",
+    defaults: ["libvpx_defaults"],
+    host_supported: true,
+    vendor_available: true,
+    visibility: ["//visibility:private"],
+
+    cflags: [
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +dotprod",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: libvpx_arm64_neon_dotprod_c_srcs,
+        },
+    },
+}
+
+cc_library_static {
+    name: "libvpx_neon_i8mm",
+    defaults: ["libvpx_defaults"],
+    host_supported: true,
+    vendor_available: true,
+    visibility: ["//visibility:private"],
+
+    cflags: [
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +dotprod",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +i8mm",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: libvpx_arm64_neon_i8mm_c_srcs,
+        },
+    },
+}
+
 cc_library {
     name: "libvpx",
     defaults: [ "libvpx_defaults" ],
@@ -98,6 +142,10 @@ cc_library {
 
         arm64: {
             srcs: libvpx_arm64_c_srcs,
+            whole_static_libs: [
+                "libvpx_neon_dotprod",
+                "libvpx_neon_i8mm",
+            ],
         },
 
         riscv64: {
@@ -132,10 +180,52 @@ cc_library {
     },
 }
 
+cc_library {
+    name: "libvpxrc",
+    defaults: [ "libvpx_defaults" ],
+    vendor_available: true,
+    static_libs: [ "libvpx" ],
+
+    arch: {
+        x86_64: {
+            srcs: libvpxrc_x86_64_c_srcs +
+                libvpxrc_x86_64_cc_srcs +
+                libvpxrc_x86_64_asm_srcs,
+            cflags: [
+                "-mssse3",
+            ],
+        },
+    },
+
+    export_include_dirs: ["."],
+}
+
 cc_library_headers {
     name: "libvpx_headers",
     vendor_available: true,
     host_supported: true,
+
+    arch: {
+        arm: {
+            export_include_dirs: ["config/arm-neon"],
+        },
+
+        arm64: {
+            export_include_dirs: ["config/arm64"],
+        },
+
+        riscv64: {
+            export_include_dirs: ["config/generic"],
+        },
+
+        x86: {
+            export_include_dirs: ["config/x86"],
+        },
+
+        x86_64: {
+            export_include_dirs: ["config/x86_64"],
+        },
+    },
 
     export_include_dirs: ["."],
 }
