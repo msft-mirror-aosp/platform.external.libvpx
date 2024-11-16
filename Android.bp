@@ -154,7 +154,6 @@ libvpx_arm_neon_c_srcs = [
     "vpx/src/vpx_decoder.c",
     "vpx/src/vpx_encoder.c",
     "vpx/src/vpx_image.c",
-    "vpx/src/vpx_tpl.c",
     "vpx_dsp/arm/avg_neon.c",
     "vpx_dsp/arm/avg_pred_neon.c",
     "vpx_dsp/arm/fdct4x4_neon.c",
@@ -184,7 +183,6 @@ libvpx_arm_neon_c_srcs = [
     "vpx_dsp/arm/highbd_vpx_convolve8_neon.c",
     "vpx_dsp/arm/highbd_vpx_convolve_avg_neon.c",
     "vpx_dsp/arm/highbd_vpx_convolve_copy_neon.c",
-    "vpx_dsp/arm/highbd_vpx_convolve_neon.c",
     "vpx_dsp/arm/idct8x8_1_add_neon.c",
     "vpx_dsp/arm/idct8x8_add_neon.c",
     "vpx_dsp/arm/idct16x16_1_add_neon.c",
@@ -258,17 +256,16 @@ libvpx_arm_neon_asm_srcs = [
 ]
 
 libvpx_arm64_neon_dotprod_c_srcs = [
+    "vpx_dsp/arm/highbd_variance_neon_dotprod.c",
     "vpx_dsp/arm/sad4d_neon_dotprod.c",
     "vpx_dsp/arm/sad_neon_dotprod.c",
     "vpx_dsp/arm/sse_neon_dotprod.c",
     "vpx_dsp/arm/variance_neon_dotprod.c",
     "vpx_dsp/arm/vpx_convolve8_neon_dotprod.c",
-    "vpx_dsp/arm/vpx_convolve_neon_dotprod.c",
 ]
 
 libvpx_arm64_neon_i8mm_c_srcs = [
     "vpx_dsp/arm/vpx_convolve8_neon_i8mm.c",
-    "vpx_dsp/arm/vpx_convolve_neon_i8mm.c",
 ]
 
 libvpx_arm64_c_srcs = [
@@ -424,7 +421,6 @@ libvpx_arm64_c_srcs = [
     "vpx/src/vpx_decoder.c",
     "vpx/src/vpx_encoder.c",
     "vpx/src/vpx_image.c",
-    "vpx/src/vpx_tpl.c",
     "vpx_dsp/arm/avg_neon.c",
     "vpx_dsp/arm/avg_pred_neon.c",
     "vpx_dsp/arm/fdct4x4_neon.c",
@@ -454,7 +450,6 @@ libvpx_arm64_c_srcs = [
     "vpx_dsp/arm/highbd_vpx_convolve8_neon.c",
     "vpx_dsp/arm/highbd_vpx_convolve_avg_neon.c",
     "vpx_dsp/arm/highbd_vpx_convolve_copy_neon.c",
-    "vpx_dsp/arm/highbd_vpx_convolve_neon.c",
     "vpx_dsp/arm/idct4x4_1_add_neon.c",
     "vpx_dsp/arm/idct4x4_add_neon.c",
     "vpx_dsp/arm/idct8x8_1_add_neon.c",
@@ -634,7 +629,6 @@ libvpx_generic_c_srcs = [
     "vpx/src/vpx_decoder.c",
     "vpx/src/vpx_encoder.c",
     "vpx/src/vpx_image.c",
-    "vpx/src/vpx_tpl.c",
     "vpx_dsp/avg.c",
     "vpx_dsp/bitreader.c",
     "vpx_dsp/bitreader_buffer.c",
@@ -805,7 +799,6 @@ libvpx_x86_c_srcs = [
     "vpx/src/vpx_decoder.c",
     "vpx/src/vpx_encoder.c",
     "vpx/src/vpx_image.c",
-    "vpx/src/vpx_tpl.c",
     "vpx_dsp/add_noise.c",
     "vpx_dsp/avg.c",
     "vpx_dsp/bitreader.c",
@@ -1044,7 +1037,6 @@ libvpx_x86_64_c_srcs = [
     "vpx/src/vpx_decoder.c",
     "vpx/src/vpx_encoder.c",
     "vpx/src/vpx_image.c",
-    "vpx/src/vpx_tpl.c",
     "vpx_dsp/add_noise.c",
     "vpx_dsp/avg.c",
     "vpx_dsp/bitreader.c",
