@@ -1,3 +1,13 @@
+/*
+ *  Copyright (c) 2024 The WebM project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree. An additional intellectual property rights grant can be found
+ *  in the file PATENTS.  All contributing project authors may
+ *  be found in the AUTHORS file in the root of the source tree.
+ */
+
 // This file is generated. Do not edit.
 #ifndef VPX_DSP_RTCD_H_
 #define VPX_DSP_RTCD_H_
@@ -702,19 +712,23 @@ void vpx_highbd_8_get8x8var_neon(const uint8_t *src_ptr, int src_stride, const u
 
 unsigned int vpx_highbd_8_mse16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_mse16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_mse16x16 vpx_highbd_8_mse16x16_neon
+unsigned int vpx_highbd_8_mse16x16_neon_dotprod(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_mse16x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_mse16x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_mse16x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_mse16x8 vpx_highbd_8_mse16x8_neon
+unsigned int vpx_highbd_8_mse16x8_neon_dotprod(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_mse16x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_mse8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_mse8x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_mse8x16 vpx_highbd_8_mse8x16_neon
+unsigned int vpx_highbd_8_mse8x16_neon_dotprod(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_mse8x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_mse8x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_mse8x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_mse8x8 vpx_highbd_8_mse8x8_neon
+unsigned int vpx_highbd_8_mse8x8_neon_dotprod(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_mse8x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 uint32_t vpx_highbd_8_sub_pixel_avg_variance16x16_c(const uint8_t *src_ptr, int src_stride, int x_offset, int y_offset, const uint8_t *ref_ptr, int ref_stride, uint32_t *sse, const uint8_t *second_pred);
 uint32_t vpx_highbd_8_sub_pixel_avg_variance16x16_neon(const uint8_t *src_ptr, int src_stride, int x_offset, int y_offset, const uint8_t *ref_ptr, int ref_stride, uint32_t *sse, const uint8_t *second_pred);
@@ -2284,6 +2298,14 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_NEON_DOTPROD) vpx_get4x4sse_cs = vpx_get4x4sse_cs_neon_dotprod;
     vpx_get8x8var = vpx_get8x8var_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_get8x8var = vpx_get8x8var_neon_dotprod;
+    vpx_highbd_8_mse16x16 = vpx_highbd_8_mse16x16_neon;
+    if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse16x16 = vpx_highbd_8_mse16x16_neon_dotprod;
+    vpx_highbd_8_mse16x8 = vpx_highbd_8_mse16x8_neon;
+    if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse16x8 = vpx_highbd_8_mse16x8_neon_dotprod;
+    vpx_highbd_8_mse8x16 = vpx_highbd_8_mse8x16_neon;
+    if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse8x16 = vpx_highbd_8_mse8x16_neon_dotprod;
+    vpx_highbd_8_mse8x8 = vpx_highbd_8_mse8x8_neon;
+    if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse8x8 = vpx_highbd_8_mse8x8_neon_dotprod;
     vpx_mse16x16 = vpx_mse16x16_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_mse16x16 = vpx_mse16x16_neon_dotprod;
     vpx_mse16x8 = vpx_mse16x8_neon;
@@ -2407,4 +2429,4 @@ static void setup_rtcd_internal(void)
 }  // extern "C"
 #endif
 
-#endif
+#endif  // VPX_DSP_RTCD_H_
