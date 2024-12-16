@@ -344,27 +344,33 @@ void vpx_he_predictor_4x4_c(uint8_t *dst, ptrdiff_t stride, const uint8_t *above
 
 void vpx_highbd_10_get16x16var_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 void vpx_highbd_10_get16x16var_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
-#define vpx_highbd_10_get16x16var vpx_highbd_10_get16x16var_neon
+void vpx_highbd_10_get16x16var_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
+RTCD_EXTERN void (*vpx_highbd_10_get16x16var)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 
 void vpx_highbd_10_get8x8var_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 void vpx_highbd_10_get8x8var_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
-#define vpx_highbd_10_get8x8var vpx_highbd_10_get8x8var_neon
+void vpx_highbd_10_get8x8var_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
+RTCD_EXTERN void (*vpx_highbd_10_get8x8var)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 
 unsigned int vpx_highbd_10_mse16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_mse16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_mse16x16 vpx_highbd_10_mse16x16_neon
+unsigned int vpx_highbd_10_mse16x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_mse16x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_mse16x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_mse16x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_mse16x8 vpx_highbd_10_mse16x8_neon
+unsigned int vpx_highbd_10_mse16x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_mse16x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_mse8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_mse8x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_mse8x16 vpx_highbd_10_mse8x16_neon
+unsigned int vpx_highbd_10_mse8x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_mse8x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_mse8x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_mse8x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_mse8x8 vpx_highbd_10_mse8x8_neon
+unsigned int vpx_highbd_10_mse8x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_mse8x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 uint32_t vpx_highbd_10_sub_pixel_avg_variance16x16_c(const uint8_t *src_ptr, int src_stride, int x_offset, int y_offset, const uint8_t *ref_ptr, int ref_stride, uint32_t *sse, const uint8_t *second_pred);
 uint32_t vpx_highbd_10_sub_pixel_avg_variance16x16_neon(const uint8_t *src_ptr, int src_stride, int x_offset, int y_offset, const uint8_t *ref_ptr, int ref_stride, uint32_t *sse, const uint8_t *second_pred);
@@ -472,79 +478,98 @@ uint32_t vpx_highbd_10_sub_pixel_variance8x8_neon(const uint8_t *src_ptr, int sr
 
 unsigned int vpx_highbd_10_variance16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance16x16 vpx_highbd_10_variance16x16_neon
+unsigned int vpx_highbd_10_variance16x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance16x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance16x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance16x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance16x32 vpx_highbd_10_variance16x32_neon
+unsigned int vpx_highbd_10_variance16x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance16x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance16x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance16x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance16x8 vpx_highbd_10_variance16x8_neon
+unsigned int vpx_highbd_10_variance16x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance16x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance32x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance32x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance32x16 vpx_highbd_10_variance32x16_neon
+unsigned int vpx_highbd_10_variance32x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance32x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance32x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance32x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance32x32 vpx_highbd_10_variance32x32_neon
+unsigned int vpx_highbd_10_variance32x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance32x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance32x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance32x64_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance32x64 vpx_highbd_10_variance32x64_neon
+unsigned int vpx_highbd_10_variance32x64_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance32x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance4x4_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance4x4_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance4x4 vpx_highbd_10_variance4x4_neon
+unsigned int vpx_highbd_10_variance4x4_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance4x4)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance4x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance4x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance4x8 vpx_highbd_10_variance4x8_neon
+unsigned int vpx_highbd_10_variance4x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance4x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance64x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance64x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance64x32 vpx_highbd_10_variance64x32_neon
+unsigned int vpx_highbd_10_variance64x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance64x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance64x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance64x64_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance64x64 vpx_highbd_10_variance64x64_neon
+unsigned int vpx_highbd_10_variance64x64_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance64x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance8x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance8x16 vpx_highbd_10_variance8x16_neon
+unsigned int vpx_highbd_10_variance8x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance8x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance8x4_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance8x4_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance8x4 vpx_highbd_10_variance8x4_neon
+unsigned int vpx_highbd_10_variance8x4_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance8x4)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_10_variance8x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_10_variance8x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_10_variance8x8 vpx_highbd_10_variance8x8_neon
+unsigned int vpx_highbd_10_variance8x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_10_variance8x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 void vpx_highbd_12_get16x16var_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 void vpx_highbd_12_get16x16var_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
-#define vpx_highbd_12_get16x16var vpx_highbd_12_get16x16var_neon
+void vpx_highbd_12_get16x16var_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
+RTCD_EXTERN void (*vpx_highbd_12_get16x16var)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 
 void vpx_highbd_12_get8x8var_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 void vpx_highbd_12_get8x8var_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
-#define vpx_highbd_12_get8x8var vpx_highbd_12_get8x8var_neon
+void vpx_highbd_12_get8x8var_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
+RTCD_EXTERN void (*vpx_highbd_12_get8x8var)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 
 unsigned int vpx_highbd_12_mse16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_mse16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_mse16x16 vpx_highbd_12_mse16x16_neon
+unsigned int vpx_highbd_12_mse16x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_mse16x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_mse16x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_mse16x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_mse16x8 vpx_highbd_12_mse16x8_neon
+unsigned int vpx_highbd_12_mse16x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_mse16x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_mse8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_mse8x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_mse8x16 vpx_highbd_12_mse8x16_neon
+unsigned int vpx_highbd_12_mse8x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_mse8x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_mse8x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_mse8x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_mse8x8 vpx_highbd_12_mse8x8_neon
+unsigned int vpx_highbd_12_mse8x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_mse8x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 uint32_t vpx_highbd_12_sub_pixel_avg_variance16x16_c(const uint8_t *src_ptr, int src_stride, int x_offset, int y_offset, const uint8_t *ref_ptr, int ref_stride, uint32_t *sse, const uint8_t *second_pred);
 uint32_t vpx_highbd_12_sub_pixel_avg_variance16x16_neon(const uint8_t *src_ptr, int src_stride, int x_offset, int y_offset, const uint8_t *ref_ptr, int ref_stride, uint32_t *sse, const uint8_t *second_pred);
@@ -652,63 +677,78 @@ uint32_t vpx_highbd_12_sub_pixel_variance8x8_neon(const uint8_t *src_ptr, int sr
 
 unsigned int vpx_highbd_12_variance16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance16x16 vpx_highbd_12_variance16x16_neon
+unsigned int vpx_highbd_12_variance16x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance16x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance16x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance16x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance16x32 vpx_highbd_12_variance16x32_neon
+unsigned int vpx_highbd_12_variance16x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance16x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance16x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance16x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance16x8 vpx_highbd_12_variance16x8_neon
+unsigned int vpx_highbd_12_variance16x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance16x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance32x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance32x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance32x16 vpx_highbd_12_variance32x16_neon
+unsigned int vpx_highbd_12_variance32x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance32x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance32x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance32x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance32x32 vpx_highbd_12_variance32x32_neon
+unsigned int vpx_highbd_12_variance32x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance32x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance32x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance32x64_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance32x64 vpx_highbd_12_variance32x64_neon
+unsigned int vpx_highbd_12_variance32x64_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance32x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance4x4_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance4x4_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance4x4 vpx_highbd_12_variance4x4_neon
+unsigned int vpx_highbd_12_variance4x4_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance4x4)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance4x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance4x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance4x8 vpx_highbd_12_variance4x8_neon
+unsigned int vpx_highbd_12_variance4x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance4x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance64x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance64x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance64x32 vpx_highbd_12_variance64x32_neon
+unsigned int vpx_highbd_12_variance64x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance64x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance64x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance64x64_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance64x64 vpx_highbd_12_variance64x64_neon
+unsigned int vpx_highbd_12_variance64x64_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance64x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance8x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance8x16 vpx_highbd_12_variance8x16_neon
+unsigned int vpx_highbd_12_variance8x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance8x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance8x4_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance8x4_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance8x4 vpx_highbd_12_variance8x4_neon
+unsigned int vpx_highbd_12_variance8x4_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance8x4)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_12_variance8x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_12_variance8x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_12_variance8x8 vpx_highbd_12_variance8x8_neon
+unsigned int vpx_highbd_12_variance8x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_12_variance8x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 void vpx_highbd_8_get16x16var_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 void vpx_highbd_8_get16x16var_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
-#define vpx_highbd_8_get16x16var vpx_highbd_8_get16x16var_neon
+void vpx_highbd_8_get16x16var_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
+RTCD_EXTERN void (*vpx_highbd_8_get16x16var)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 
 void vpx_highbd_8_get8x8var_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 void vpx_highbd_8_get8x8var_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
-#define vpx_highbd_8_get8x8var vpx_highbd_8_get8x8var_neon
+void vpx_highbd_8_get8x8var_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
+RTCD_EXTERN void (*vpx_highbd_8_get8x8var)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse, int *sum);
 
 unsigned int vpx_highbd_8_mse16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_mse16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
@@ -836,55 +876,68 @@ uint32_t vpx_highbd_8_sub_pixel_variance8x8_neon(const uint8_t *src_ptr, int src
 
 unsigned int vpx_highbd_8_variance16x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance16x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance16x16 vpx_highbd_8_variance16x16_neon
+unsigned int vpx_highbd_8_variance16x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance16x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance16x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance16x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance16x32 vpx_highbd_8_variance16x32_neon
+unsigned int vpx_highbd_8_variance16x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance16x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance16x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance16x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance16x8 vpx_highbd_8_variance16x8_neon
+unsigned int vpx_highbd_8_variance16x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance16x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance32x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance32x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance32x16 vpx_highbd_8_variance32x16_neon
+unsigned int vpx_highbd_8_variance32x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance32x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance32x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance32x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance32x32 vpx_highbd_8_variance32x32_neon
+unsigned int vpx_highbd_8_variance32x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance32x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance32x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance32x64_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance32x64 vpx_highbd_8_variance32x64_neon
+unsigned int vpx_highbd_8_variance32x64_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance32x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance4x4_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance4x4_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance4x4 vpx_highbd_8_variance4x4_neon
+unsigned int vpx_highbd_8_variance4x4_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance4x4)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance4x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance4x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance4x8 vpx_highbd_8_variance4x8_neon
+unsigned int vpx_highbd_8_variance4x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance4x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance64x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance64x32_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance64x32 vpx_highbd_8_variance64x32_neon
+unsigned int vpx_highbd_8_variance64x32_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance64x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance64x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance64x64_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance64x64 vpx_highbd_8_variance64x64_neon
+unsigned int vpx_highbd_8_variance64x64_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance64x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance8x16_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance8x16 vpx_highbd_8_variance8x16_neon
+unsigned int vpx_highbd_8_variance8x16_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance8x16)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance8x4_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance8x4_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance8x4 vpx_highbd_8_variance8x4_neon
+unsigned int vpx_highbd_8_variance8x4_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance8x4)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_8_variance8x8_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 unsigned int vpx_highbd_8_variance8x8_neon(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
-#define vpx_highbd_8_variance8x8 vpx_highbd_8_variance8x8_neon
+unsigned int vpx_highbd_8_variance8x8_sve(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
+RTCD_EXTERN unsigned int (*vpx_highbd_8_variance8x8)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, unsigned int *sse);
 
 unsigned int vpx_highbd_avg_4x4_c(const uint8_t *s8, int p);
 unsigned int vpx_highbd_avg_4x4_neon(const uint8_t *s8, int p);
@@ -900,27 +953,33 @@ void vpx_highbd_comp_avg_pred_neon(uint16_t *comp_pred, const uint16_t *pred, in
 
 void vpx_highbd_convolve8_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve8_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
-#define vpx_highbd_convolve8 vpx_highbd_convolve8_neon
+void vpx_highbd_convolve8_sve2(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
+RTCD_EXTERN void (*vpx_highbd_convolve8)(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 
 void vpx_highbd_convolve8_avg_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve8_avg_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
-#define vpx_highbd_convolve8_avg vpx_highbd_convolve8_avg_neon
+void vpx_highbd_convolve8_avg_sve2(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
+RTCD_EXTERN void (*vpx_highbd_convolve8_avg)(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 
 void vpx_highbd_convolve8_avg_horiz_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve8_avg_horiz_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
-#define vpx_highbd_convolve8_avg_horiz vpx_highbd_convolve8_avg_horiz_neon
+void vpx_highbd_convolve8_avg_horiz_sve(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
+RTCD_EXTERN void (*vpx_highbd_convolve8_avg_horiz)(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 
 void vpx_highbd_convolve8_avg_vert_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve8_avg_vert_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
-#define vpx_highbd_convolve8_avg_vert vpx_highbd_convolve8_avg_vert_neon
+void vpx_highbd_convolve8_avg_vert_sve2(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
+RTCD_EXTERN void (*vpx_highbd_convolve8_avg_vert)(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 
 void vpx_highbd_convolve8_horiz_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve8_horiz_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
-#define vpx_highbd_convolve8_horiz vpx_highbd_convolve8_horiz_neon
+void vpx_highbd_convolve8_horiz_sve(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
+RTCD_EXTERN void (*vpx_highbd_convolve8_horiz)(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 
 void vpx_highbd_convolve8_vert_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve8_vert_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
-#define vpx_highbd_convolve8_vert vpx_highbd_convolve8_vert_neon
+void vpx_highbd_convolve8_vert_sve2(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
+RTCD_EXTERN void (*vpx_highbd_convolve8_vert)(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 
 void vpx_highbd_convolve_avg_c(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
 void vpx_highbd_convolve_avg_neon(const uint16_t *src, ptrdiff_t src_stride, uint16_t *dst, ptrdiff_t dst_stride, const InterpKernel *filter, int x0_q4, int x_step_q4, int y0_q4, int y_step_q4, int w, int h, int bd);
@@ -2156,7 +2215,8 @@ void vpx_subtract_block_neon(int rows, int cols, int16_t *diff_ptr, ptrdiff_t di
 
 uint64_t vpx_sum_squares_2d_i16_c(const int16_t *src, int stride, int size);
 uint64_t vpx_sum_squares_2d_i16_neon(const int16_t *src, int stride, int size);
-#define vpx_sum_squares_2d_i16 vpx_sum_squares_2d_i16_neon
+uint64_t vpx_sum_squares_2d_i16_sve(const int16_t *src, int stride, int size);
+RTCD_EXTERN uint64_t (*vpx_sum_squares_2d_i16)(const int16_t *src, int stride, int size);
 
 void vpx_tm_predictor_16x16_c(uint8_t *dst, ptrdiff_t stride, const uint8_t *above, const uint8_t *left);
 void vpx_tm_predictor_16x16_neon(uint8_t *dst, ptrdiff_t stride, const uint8_t *above, const uint8_t *left);
@@ -2298,6 +2358,86 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_NEON_DOTPROD) vpx_get4x4sse_cs = vpx_get4x4sse_cs_neon_dotprod;
     vpx_get8x8var = vpx_get8x8var_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_get8x8var = vpx_get8x8var_neon_dotprod;
+    vpx_highbd_10_get16x16var = vpx_highbd_10_get16x16var_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_get16x16var = vpx_highbd_10_get16x16var_sve;
+    vpx_highbd_10_get8x8var = vpx_highbd_10_get8x8var_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_get8x8var = vpx_highbd_10_get8x8var_sve;
+    vpx_highbd_10_mse16x16 = vpx_highbd_10_mse16x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_mse16x16 = vpx_highbd_10_mse16x16_sve;
+    vpx_highbd_10_mse16x8 = vpx_highbd_10_mse16x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_mse16x8 = vpx_highbd_10_mse16x8_sve;
+    vpx_highbd_10_mse8x16 = vpx_highbd_10_mse8x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_mse8x16 = vpx_highbd_10_mse8x16_sve;
+    vpx_highbd_10_mse8x8 = vpx_highbd_10_mse8x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_mse8x8 = vpx_highbd_10_mse8x8_sve;
+    vpx_highbd_10_variance16x16 = vpx_highbd_10_variance16x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance16x16 = vpx_highbd_10_variance16x16_sve;
+    vpx_highbd_10_variance16x32 = vpx_highbd_10_variance16x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance16x32 = vpx_highbd_10_variance16x32_sve;
+    vpx_highbd_10_variance16x8 = vpx_highbd_10_variance16x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance16x8 = vpx_highbd_10_variance16x8_sve;
+    vpx_highbd_10_variance32x16 = vpx_highbd_10_variance32x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance32x16 = vpx_highbd_10_variance32x16_sve;
+    vpx_highbd_10_variance32x32 = vpx_highbd_10_variance32x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance32x32 = vpx_highbd_10_variance32x32_sve;
+    vpx_highbd_10_variance32x64 = vpx_highbd_10_variance32x64_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance32x64 = vpx_highbd_10_variance32x64_sve;
+    vpx_highbd_10_variance4x4 = vpx_highbd_10_variance4x4_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance4x4 = vpx_highbd_10_variance4x4_sve;
+    vpx_highbd_10_variance4x8 = vpx_highbd_10_variance4x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance4x8 = vpx_highbd_10_variance4x8_sve;
+    vpx_highbd_10_variance64x32 = vpx_highbd_10_variance64x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance64x32 = vpx_highbd_10_variance64x32_sve;
+    vpx_highbd_10_variance64x64 = vpx_highbd_10_variance64x64_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance64x64 = vpx_highbd_10_variance64x64_sve;
+    vpx_highbd_10_variance8x16 = vpx_highbd_10_variance8x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance8x16 = vpx_highbd_10_variance8x16_sve;
+    vpx_highbd_10_variance8x4 = vpx_highbd_10_variance8x4_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance8x4 = vpx_highbd_10_variance8x4_sve;
+    vpx_highbd_10_variance8x8 = vpx_highbd_10_variance8x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_10_variance8x8 = vpx_highbd_10_variance8x8_sve;
+    vpx_highbd_12_get16x16var = vpx_highbd_12_get16x16var_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_get16x16var = vpx_highbd_12_get16x16var_sve;
+    vpx_highbd_12_get8x8var = vpx_highbd_12_get8x8var_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_get8x8var = vpx_highbd_12_get8x8var_sve;
+    vpx_highbd_12_mse16x16 = vpx_highbd_12_mse16x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_mse16x16 = vpx_highbd_12_mse16x16_sve;
+    vpx_highbd_12_mse16x8 = vpx_highbd_12_mse16x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_mse16x8 = vpx_highbd_12_mse16x8_sve;
+    vpx_highbd_12_mse8x16 = vpx_highbd_12_mse8x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_mse8x16 = vpx_highbd_12_mse8x16_sve;
+    vpx_highbd_12_mse8x8 = vpx_highbd_12_mse8x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_mse8x8 = vpx_highbd_12_mse8x8_sve;
+    vpx_highbd_12_variance16x16 = vpx_highbd_12_variance16x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance16x16 = vpx_highbd_12_variance16x16_sve;
+    vpx_highbd_12_variance16x32 = vpx_highbd_12_variance16x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance16x32 = vpx_highbd_12_variance16x32_sve;
+    vpx_highbd_12_variance16x8 = vpx_highbd_12_variance16x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance16x8 = vpx_highbd_12_variance16x8_sve;
+    vpx_highbd_12_variance32x16 = vpx_highbd_12_variance32x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance32x16 = vpx_highbd_12_variance32x16_sve;
+    vpx_highbd_12_variance32x32 = vpx_highbd_12_variance32x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance32x32 = vpx_highbd_12_variance32x32_sve;
+    vpx_highbd_12_variance32x64 = vpx_highbd_12_variance32x64_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance32x64 = vpx_highbd_12_variance32x64_sve;
+    vpx_highbd_12_variance4x4 = vpx_highbd_12_variance4x4_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance4x4 = vpx_highbd_12_variance4x4_sve;
+    vpx_highbd_12_variance4x8 = vpx_highbd_12_variance4x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance4x8 = vpx_highbd_12_variance4x8_sve;
+    vpx_highbd_12_variance64x32 = vpx_highbd_12_variance64x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance64x32 = vpx_highbd_12_variance64x32_sve;
+    vpx_highbd_12_variance64x64 = vpx_highbd_12_variance64x64_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance64x64 = vpx_highbd_12_variance64x64_sve;
+    vpx_highbd_12_variance8x16 = vpx_highbd_12_variance8x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance8x16 = vpx_highbd_12_variance8x16_sve;
+    vpx_highbd_12_variance8x4 = vpx_highbd_12_variance8x4_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance8x4 = vpx_highbd_12_variance8x4_sve;
+    vpx_highbd_12_variance8x8 = vpx_highbd_12_variance8x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_12_variance8x8 = vpx_highbd_12_variance8x8_sve;
+    vpx_highbd_8_get16x16var = vpx_highbd_8_get16x16var_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_get16x16var = vpx_highbd_8_get16x16var_sve;
+    vpx_highbd_8_get8x8var = vpx_highbd_8_get8x8var_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_get8x8var = vpx_highbd_8_get8x8var_sve;
     vpx_highbd_8_mse16x16 = vpx_highbd_8_mse16x16_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse16x16 = vpx_highbd_8_mse16x16_neon_dotprod;
     vpx_highbd_8_mse16x8 = vpx_highbd_8_mse16x8_neon;
@@ -2306,6 +2446,44 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse8x16 = vpx_highbd_8_mse8x16_neon_dotprod;
     vpx_highbd_8_mse8x8 = vpx_highbd_8_mse8x8_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_highbd_8_mse8x8 = vpx_highbd_8_mse8x8_neon_dotprod;
+    vpx_highbd_8_variance16x16 = vpx_highbd_8_variance16x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance16x16 = vpx_highbd_8_variance16x16_sve;
+    vpx_highbd_8_variance16x32 = vpx_highbd_8_variance16x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance16x32 = vpx_highbd_8_variance16x32_sve;
+    vpx_highbd_8_variance16x8 = vpx_highbd_8_variance16x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance16x8 = vpx_highbd_8_variance16x8_sve;
+    vpx_highbd_8_variance32x16 = vpx_highbd_8_variance32x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance32x16 = vpx_highbd_8_variance32x16_sve;
+    vpx_highbd_8_variance32x32 = vpx_highbd_8_variance32x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance32x32 = vpx_highbd_8_variance32x32_sve;
+    vpx_highbd_8_variance32x64 = vpx_highbd_8_variance32x64_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance32x64 = vpx_highbd_8_variance32x64_sve;
+    vpx_highbd_8_variance4x4 = vpx_highbd_8_variance4x4_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance4x4 = vpx_highbd_8_variance4x4_sve;
+    vpx_highbd_8_variance4x8 = vpx_highbd_8_variance4x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance4x8 = vpx_highbd_8_variance4x8_sve;
+    vpx_highbd_8_variance64x32 = vpx_highbd_8_variance64x32_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance64x32 = vpx_highbd_8_variance64x32_sve;
+    vpx_highbd_8_variance64x64 = vpx_highbd_8_variance64x64_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance64x64 = vpx_highbd_8_variance64x64_sve;
+    vpx_highbd_8_variance8x16 = vpx_highbd_8_variance8x16_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance8x16 = vpx_highbd_8_variance8x16_sve;
+    vpx_highbd_8_variance8x4 = vpx_highbd_8_variance8x4_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance8x4 = vpx_highbd_8_variance8x4_sve;
+    vpx_highbd_8_variance8x8 = vpx_highbd_8_variance8x8_neon;
+    if (flags & HAS_SVE) vpx_highbd_8_variance8x8 = vpx_highbd_8_variance8x8_sve;
+    vpx_highbd_convolve8 = vpx_highbd_convolve8_neon;
+    if (flags & HAS_SVE2) vpx_highbd_convolve8 = vpx_highbd_convolve8_sve2;
+    vpx_highbd_convolve8_avg = vpx_highbd_convolve8_avg_neon;
+    if (flags & HAS_SVE2) vpx_highbd_convolve8_avg = vpx_highbd_convolve8_avg_sve2;
+    vpx_highbd_convolve8_avg_horiz = vpx_highbd_convolve8_avg_horiz_neon;
+    if (flags & HAS_SVE) vpx_highbd_convolve8_avg_horiz = vpx_highbd_convolve8_avg_horiz_sve;
+    vpx_highbd_convolve8_avg_vert = vpx_highbd_convolve8_avg_vert_neon;
+    if (flags & HAS_SVE2) vpx_highbd_convolve8_avg_vert = vpx_highbd_convolve8_avg_vert_sve2;
+    vpx_highbd_convolve8_horiz = vpx_highbd_convolve8_horiz_neon;
+    if (flags & HAS_SVE) vpx_highbd_convolve8_horiz = vpx_highbd_convolve8_horiz_sve;
+    vpx_highbd_convolve8_vert = vpx_highbd_convolve8_vert_neon;
+    if (flags & HAS_SVE2) vpx_highbd_convolve8_vert = vpx_highbd_convolve8_vert_sve2;
     vpx_mse16x16 = vpx_mse16x16_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_mse16x16 = vpx_mse16x16_neon_dotprod;
     vpx_mse16x8 = vpx_mse16x8_neon;
@@ -2396,6 +2574,8 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_NEON_DOTPROD) vpx_sad_skip_64x64x4d = vpx_sad_skip_64x64x4d_neon_dotprod;
     vpx_sse = vpx_sse_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_sse = vpx_sse_neon_dotprod;
+    vpx_sum_squares_2d_i16 = vpx_sum_squares_2d_i16_neon;
+    if (flags & HAS_SVE) vpx_sum_squares_2d_i16 = vpx_sum_squares_2d_i16_sve;
     vpx_variance16x16 = vpx_variance16x16_neon;
     if (flags & HAS_NEON_DOTPROD) vpx_variance16x16 = vpx_variance16x16_neon_dotprod;
     vpx_variance16x32 = vpx_variance16x32_neon;
