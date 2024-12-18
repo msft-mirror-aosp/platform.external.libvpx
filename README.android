@@ -1,12 +1,15 @@
 Name: libvpx
 URL: http://www.webmproject.org
-Version: v1.14.1
+Version: v1.15.0
 License: BSD
 License File: libvpx/LICENSE
 
-Date: Monday June 3 2024
-Branch: v1.14.1
-Commit: 12f3a2ac603e8f10742105519e0cd03c3b8f71dd
+Date: Tuesday November 05 2024
+Branch: v1.15.0
+Commit: 9f9b7e9ba2eb9d01640a9e69a3d655866265cf7f
+
+Cherry-picks:
+24b568e6f libs.mk: Expose RC_RTC_SRCS as libvpxrc_srcs.txt
 
 Description:
 Contains the sources used to compile libvpx.
