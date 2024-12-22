@@ -275,6 +275,10 @@ libvpx_arm64_sve_c_srcs = [
     "vpx_dsp/arm/sum_squares_sve.c",
 ]
 
+libvpx_arm64_sve2_c_srcs = [
+    "vpx_dsp/arm/highbd_vpx_convolve8_sve2.c",
+]
+
 libvpx_arm64_c_srcs = [
     "config/arm64/vpx_config.c",
     "vp8/common/alloccommon.c",
@@ -1449,6 +1453,38 @@ cc_library_static {
     },
 }
 
+cc_library_static {
+    name: "libvpx_sve2",
+    defaults: ["libvpx_defaults"],
+    host_supported: true,
+    vendor_available: true,
+    visibility: ["//visibility:private"],
+
+    cflags: [
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +dotprod",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +i8mm",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +sve",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang -target-feature",
+        // This comment prevents bpfmt from sorting the flags incorrectly.
+        "-Xclang +sve2",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: libvpx_arm64_sve2_c_srcs,
+        },
+    },
+}
+
 cc_library {
     name: "libvpx",
     defaults: ["libvpx_defaults"],
@@ -1471,6 +1507,7 @@ cc_library {
                 "libvpx_neon_dotprod",
                 "libvpx_neon_i8mm",
                 "libvpx_sve",
+                "libvpx_sve2",
             ],
         },
 
