@@ -187,8 +187,8 @@ function gen_bp_srcs {
     varprefix=libvpx_${1//-/_}
     local negative_pattern
     if [[ "$1" == "arm64" ]]; then
-      negative_pattern="_neon_\\(dotprod\\|i8mm\\)\\.c"
-      for suffix in "neon_dotprod" "neon_i8mm"; do
+      negative_pattern="\\(_neon_\\(dotprod\\|i8mm\\)\\|_sve\\|sve2\\)\\.c"
+      for suffix in "neon_dotprod" "neon_i8mm" "sve" "sve2"; do
         echo "${varprefix}_${suffix}_c_srcs = ["
         libvpx_srcs_txt_to_c_srcs libvpx_srcs_$1.txt "_${suffix}\\.c"
         echo "]"
@@ -258,7 +258,6 @@ intel="--disable-sse4_1 --disable-avx --disable-avx2 --disable-avx512 --as=yasm"
 gen_config_files x86 "--target=x86-linux-gcc ${intel} ${all_platforms}"
 gen_config_files x86_64 "--target=x86_64-linux-gcc ${intel} ${all_platforms}"
 gen_config_files arm-neon "--target=armv7-linux-gcc ${all_platforms}"
-arm64="--disable-sve"
 gen_config_files arm64 "--target=armv8-linux-gcc ${arm64} ${all_platforms} \
   --enable-runtime-cpu-detect"
 gen_config_files generic "--target=generic-gnu ${all_platforms}"
