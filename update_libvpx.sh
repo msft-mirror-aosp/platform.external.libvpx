@@ -69,15 +69,6 @@ git merge $UPSTREAM_COMMIT
 # Get the current commit hash.
 hash=$(git log $UPSTREAM_COMMIT -1 --format="%H")
 
-# README reminder.
-echo "Update README.android:"
-echo "==============="
-echo "Date: $(date +"%A %B %d %Y")"
-echo "Branch: $GIT_BRANCH"
-echo "Commit: $hash"
-echo "==============="
-echo ""
-
 # Remove the remote added earlier
 git remote remove $REMOTE
 
