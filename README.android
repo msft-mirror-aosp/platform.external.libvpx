@@ -1,12 +1,7 @@
 Name: libvpx
 URL: http://www.webmproject.org
-Version: v1.15.0
 License: BSD
 License File: libvpx/LICENSE
-
-Date: Tuesday November 05 2024
-Branch: v1.15.0
-Commit: 9f9b7e9ba2eb9d01640a9e69a3d655866265cf7f
 
 Cherry-picks:
 24b568e6f libs.mk: Expose RC_RTC_SRCS as libvpxrc_srcs.txt
@@ -21,39 +16,23 @@ Notes on updating libvpx source code:
 
 Please follow these steps to update libvpx source code:
 
-1. Update libvpx source tree. Look for "Current HEAD: <hash>" output to update
-   README.android. Look for "git log from upstream: <git log>" output to add
-   to the commit message.
+1. Set up build environment.
 
-   ./update_libvpx.sh [branch name]
+   $ . build/envsetup.sh
+   $ lunch aosp_arm64-trunk_staging-eng
 
-2. Generate updated .gypi and config files.
+2. Run external_updater.
 
-   ./generate_config.sh
+   $ tools/external_updater/updater.sh update --no-build --no-upload \
+     external/libvpx
 
-3. Update this file with any Version, Date, Branch, or Commit changes. The
-   version is in the file source/config/vpx_version.h
+   Note: If you have changes in an existing branch, use `--keep-local-changes`.
+         To update to a version other than the latest release tag, use
+         `--custom-version`.
 
-4. Commit the changes. The commit message should look like this and is printed
-   by update_libvpx.sh:
-   libvpx: Pull from upstream
+3. Update post_update.sh & Android.bp.in as needed.
 
-   Current HEAD: <hash>
+   Rerun `./post_update.sh` and amend the commit created by external_updater.
 
-   git log from upstream:
-   a6b2070 <git commit message 1>
-   08dabbc <git commit message 2>
-   c29fb02 <git commit message 3>
-
-Tools needed to build libvpx:
-
-- generate_config.sh
-
-Generate config files that contain the source list for each platform.
-Configuration for the build is taken from vpx_config.h for each platform.
-
-- lint_config.sh
-
-A tool to verify vpx_config.h and vpx_config.asm are matched. This also
-prints the final configuration after checking.
-
+   $ ./post_update.sh
+   $ git commit -a --amend --no-edit
