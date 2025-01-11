@@ -1,6 +1,6 @@
 # This project was upgraded with external_updater.
-# Usage: tools/external_updater/updater.sh update libvpx
-# For more info, check https://cs.android.com/android/platform/superproject/+/main:tools/external_updater/README.md
+# Usage: tools/external_updater/updater.sh update external/libvpx
+# For more info, check https://cs.android.com/android/platform/superproject/main/+/main:tools/external_updater/README.md
 
 name: "libvpx"
 description: "Android fork of the libvpx library."
