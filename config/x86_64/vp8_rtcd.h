@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 The WebM project authors. All Rights Reserved.
+ *  Copyright (c) 2025 The WebM project authors. All Rights Reserved.
  *
  *  Use of this source code is governed by a BSD-style license
  *  that can be found in the LICENSE file in the root of the source
@@ -40,7 +40,7 @@ extern "C" {
 void vp8_bilinear_predict16x16_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_bilinear_predict16x16_sse2(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_bilinear_predict16x16_ssse3(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
-#define vp8_bilinear_predict16x16 vp8_bilinear_predict16x16_ssse3
+RTCD_EXTERN void (*vp8_bilinear_predict16x16)(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 
 void vp8_bilinear_predict4x4_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_bilinear_predict4x4_sse2(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
@@ -53,7 +53,7 @@ void vp8_bilinear_predict8x4_sse2(unsigned char *src_ptr, int src_pixels_per_lin
 void vp8_bilinear_predict8x8_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_bilinear_predict8x8_sse2(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_bilinear_predict8x8_ssse3(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
-#define vp8_bilinear_predict8x8 vp8_bilinear_predict8x8_ssse3
+RTCD_EXTERN void (*vp8_bilinear_predict8x8)(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 
 int vp8_block_error_c(short *coeff, short *dqcoeff);
 int vp8_block_error_sse2(short *coeff, short *dqcoeff);
@@ -62,7 +62,7 @@ int vp8_block_error_sse2(short *coeff, short *dqcoeff);
 void vp8_copy32xn_c(const unsigned char *src_ptr, int src_stride, unsigned char *dst_ptr, int dst_stride, int height);
 void vp8_copy32xn_sse2(const unsigned char *src_ptr, int src_stride, unsigned char *dst_ptr, int dst_stride, int height);
 void vp8_copy32xn_sse3(const unsigned char *src_ptr, int src_stride, unsigned char *dst_ptr, int dst_stride, int height);
-#define vp8_copy32xn vp8_copy32xn_sse3
+RTCD_EXTERN void (*vp8_copy32xn)(const unsigned char *src_ptr, int src_stride, unsigned char *dst_ptr, int dst_stride, int height);
 
 void vp8_copy_mem16x16_c(unsigned char *src, int src_stride, unsigned char *dst, int dst_stride);
 void vp8_copy_mem16x16_sse2(unsigned char *src, int src_stride, unsigned char *dst, int dst_stride);
@@ -111,7 +111,7 @@ int vp8_diamond_search_sadx4(struct macroblock *x, struct block *b, struct block
 void vp8_fast_quantize_b_c(struct block *, struct blockd *);
 void vp8_fast_quantize_b_sse2(struct block *, struct blockd *);
 void vp8_fast_quantize_b_ssse3(struct block *, struct blockd *);
-#define vp8_fast_quantize_b vp8_fast_quantize_b_ssse3
+RTCD_EXTERN void (*vp8_fast_quantize_b)(struct block *, struct blockd *);
 
 void vp8_filter_by_weight16x16_c(unsigned char *src, int src_stride, unsigned char *dst, int dst_stride, int src_weight);
 void vp8_filter_by_weight16x16_sse2(unsigned char *src, int src_stride, unsigned char *dst, int dst_stride, int src_weight);
@@ -170,7 +170,8 @@ int vp8_refining_search_sadx4(struct macroblock *x, struct block *b, struct bloc
 
 void vp8_regular_quantize_b_c(struct block *, struct blockd *);
 void vp8_regular_quantize_b_sse2(struct block *, struct blockd *);
-#define vp8_regular_quantize_b vp8_regular_quantize_b_sse2
+void vp8_regular_quantize_b_sse4_1(struct block *, struct blockd *);
+RTCD_EXTERN void (*vp8_regular_quantize_b)(struct block *, struct blockd *);
 
 void vp8_short_fdct4x4_c(short *input, short *output, int pitch);
 void vp8_short_fdct4x4_sse2(short *input, short *output, int pitch);
@@ -198,22 +199,22 @@ void vp8_short_walsh4x4_sse2(short *input, short *output, int pitch);
 void vp8_sixtap_predict16x16_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict16x16_sse2(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict16x16_ssse3(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
-#define vp8_sixtap_predict16x16 vp8_sixtap_predict16x16_ssse3
+RTCD_EXTERN void (*vp8_sixtap_predict16x16)(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 
 void vp8_sixtap_predict4x4_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict4x4_mmx(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict4x4_ssse3(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
-#define vp8_sixtap_predict4x4 vp8_sixtap_predict4x4_ssse3
+RTCD_EXTERN void (*vp8_sixtap_predict4x4)(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 
 void vp8_sixtap_predict8x4_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict8x4_sse2(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict8x4_ssse3(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
-#define vp8_sixtap_predict8x4 vp8_sixtap_predict8x4_ssse3
+RTCD_EXTERN void (*vp8_sixtap_predict8x4)(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 
 void vp8_sixtap_predict8x8_c(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict8x8_sse2(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 void vp8_sixtap_predict8x8_ssse3(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
-#define vp8_sixtap_predict8x8 vp8_sixtap_predict8x8_ssse3
+RTCD_EXTERN void (*vp8_sixtap_predict8x8)(unsigned char *src_ptr, int src_pixels_per_line, int xoffset, int yoffset, unsigned char *dst_ptr, int dst_pitch);
 
 void vp8_rtcd(void);
 
@@ -225,6 +226,24 @@ static void setup_rtcd_internal(void)
 
     (void)flags;
 
+    vp8_bilinear_predict16x16 = vp8_bilinear_predict16x16_sse2;
+    if (flags & HAS_SSSE3) vp8_bilinear_predict16x16 = vp8_bilinear_predict16x16_ssse3;
+    vp8_bilinear_predict8x8 = vp8_bilinear_predict8x8_sse2;
+    if (flags & HAS_SSSE3) vp8_bilinear_predict8x8 = vp8_bilinear_predict8x8_ssse3;
+    vp8_copy32xn = vp8_copy32xn_sse2;
+    if (flags & HAS_SSE3) vp8_copy32xn = vp8_copy32xn_sse3;
+    vp8_fast_quantize_b = vp8_fast_quantize_b_sse2;
+    if (flags & HAS_SSSE3) vp8_fast_quantize_b = vp8_fast_quantize_b_ssse3;
+    vp8_regular_quantize_b = vp8_regular_quantize_b_sse2;
+    if (flags & HAS_SSE4_1) vp8_regular_quantize_b = vp8_regular_quantize_b_sse4_1;
+    vp8_sixtap_predict16x16 = vp8_sixtap_predict16x16_sse2;
+    if (flags & HAS_SSSE3) vp8_sixtap_predict16x16 = vp8_sixtap_predict16x16_ssse3;
+    vp8_sixtap_predict4x4 = vp8_sixtap_predict4x4_mmx;
+    if (flags & HAS_SSSE3) vp8_sixtap_predict4x4 = vp8_sixtap_predict4x4_ssse3;
+    vp8_sixtap_predict8x4 = vp8_sixtap_predict8x4_sse2;
+    if (flags & HAS_SSSE3) vp8_sixtap_predict8x4 = vp8_sixtap_predict8x4_ssse3;
+    vp8_sixtap_predict8x8 = vp8_sixtap_predict8x8_sse2;
+    if (flags & HAS_SSSE3) vp8_sixtap_predict8x8 = vp8_sixtap_predict8x8_ssse3;
 }
 #endif
 
