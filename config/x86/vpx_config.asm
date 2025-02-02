@@ -20,10 +20,10 @@
 %define HAVE_SSE2 1
 %define HAVE_SSE3 1
 %define HAVE_SSSE3 1
-%define HAVE_SSE4_1 0
-%define HAVE_AVX 0
-%define HAVE_AVX2 0
-%define HAVE_AVX512 0
+%define HAVE_SSE4_1 1
+%define HAVE_AVX 1
+%define HAVE_AVX2 1
+%define HAVE_AVX512 1
 %define HAVE_VSX 0
 %define HAVE_MMI 0
 %define HAVE_LSX 0
@@ -49,7 +49,7 @@
 %define CONFIG_DEBUG_LIBS 0
 %define CONFIG_DEQUANT_TOKENS 0
 %define CONFIG_DC_RECON 0
-%define CONFIG_RUNTIME_CPU_DETECT 0
+%define CONFIG_RUNTIME_CPU_DETECT 1
 %define CONFIG_POSTPROC 1
 %define CONFIG_VP9_POSTPROC 0
 %define CONFIG_MULTITHREAD 1
