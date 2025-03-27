@@ -6,6 +6,7 @@ License File: libvpx/LICENSE
 Cherry-picks:
 24b568e6f libs.mk: Expose RC_RTC_SRCS as libvpxrc_srcs.txt
 7e78c7169 examples.mk: Expose vpxdec.SRCS as vpxdec_srcs.txt
+b2a919773 Fix test VP8/9 encoder CTS failure
 
 Description:
 Contains the sources used to compile libvpx.
