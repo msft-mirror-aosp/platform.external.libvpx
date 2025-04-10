@@ -10,13 +10,13 @@ third_party {
     tag: "NVD-CPE2.3:cpe:/a:webmproject:libvpx:-"
   }
   last_upgrade_date {
-    year: 2024
-    month: 11
-    day: 4
+    year: 2025
+    month: 4
+    day: 10
   }
   identifier {
     type: "Git"
     value: "https://chromium.googlesource.com/webm/libvpx"
-    version: "v1.15.0"
+    version: "v1.15.1"
   }
 }
