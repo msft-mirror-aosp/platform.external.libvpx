@@ -517,6 +517,20 @@ libvpx_arm64_c_srcs = [
     "vpx_util/vpx_write_yuv_frame.c",
 ]
 
+vpxdec_arm64_c_srcs = [
+    "args.c",
+    "ivfdec.c",
+    "md5_utils.c",
+    "tools_common.c",
+    "vpxdec.c",
+    "y4menc.c",
+    "y4minput.c",
+]
+
+vpxdec_arm64_cc_srcs = [
+    "webmdec.cc",
+]
+
 libvpx_generic_c_srcs = [
     "config/generic/vpx_config.c",
     "vp8/common/alloccommon.c",
@@ -1379,6 +1393,20 @@ libvpxrc_x86_64_asm_srcs = [
     "vp9/encoder/x86/vp9_error_sse2.asm",
 ]
 
+vpxdec_x86_64_c_srcs = [
+    "args.c",
+    "ivfdec.c",
+    "md5_utils.c",
+    "tools_common.c",
+    "vpxdec.c",
+    "y4menc.c",
+    "y4minput.c",
+]
+
+vpxdec_x86_64_cc_srcs = [
+    "webmdec.cc",
+]
+
 package {
     default_applicable_licenses: ["external_libvpx_license"],
 }
@@ -1823,4 +1851,26 @@ cc_fuzz {
     static_libs: [
         "libvpx",
     ],
+}
+
+cc_binary {
+    name: "vpxdec",
+    defaults: ["libvpx_defaults"],
+    vendor_available: true,
+    static_libs: [
+        "libvpx",
+        "libwebm_mkvreader",
+        "libyuv_cfi",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: vpxdec_arm64_c_srcs +
+                vpxdec_arm64_cc_srcs,
+        },
+        x86_64: {
+            srcs: vpxdec_x86_64_c_srcs +
+                vpxdec_x86_64_cc_srcs,
+        },
+    },
 }

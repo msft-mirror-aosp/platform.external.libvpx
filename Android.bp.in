@@ -443,3 +443,25 @@ cc_fuzz {
         "libvpx",
     ],
 }
+
+cc_binary {
+    name: "vpxdec",
+    defaults: ["libvpx_defaults"],
+    vendor_available: true,
+    static_libs: [
+        "libvpx",
+        "libwebm_mkvreader",
+        "libyuv_cfi",
+    ],
+
+    arch: {
+        arm64: {
+            srcs: vpxdec_arm64_c_srcs +
+                vpxdec_arm64_cc_srcs,
+        },
+        x86_64: {
+            srcs: vpxdec_x86_64_c_srcs +
+                vpxdec_x86_64_cc_srcs,
+        },
+    },
+}
