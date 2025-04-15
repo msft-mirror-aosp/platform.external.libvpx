@@ -143,9 +143,11 @@ function gen_source_list {
   fi
   make libvpx_srcs.txt libvpxrc_srcs.txt target=libs $config > /dev/null
   make vpxdec_srcs.txt target=examples $config > /dev/null
+  make tiny_ssim_srcs.txt target=tools $config > /dev/null
   mv libvpx_srcs.txt libvpx_srcs_$1.txt
   mv libvpxrc_srcs.txt libvpxrc_srcs_$1.txt
   mv vpxdec_srcs.txt vpxdec_srcs_$1.txt
+  mv tiny_ssim_srcs.txt tiny_ssim_srcs_$1.txt
 }
 
 # Extract a list of C sources from a libvpx_srcs.txt file
@@ -269,6 +271,20 @@ function gen_bp_srcs {
         echo "${varprefix}_cc_srcs = ["
         vpxdec_srcs_txt_to_cc_srcs vpxdec_srcs_$1.txt
         echo "]"
+        ;;
+    esac
+    echo
+
+    # Collect the tiny_ssim sources into variables. Note that we're only
+    # interested in x86_64 and arm64 for now, but this can be expanded later.
+    varprefix=tiny_ssim_${1//-/_}
+    case "$1" in
+      arm64 | x86_64)
+        echo
+        echo "${varprefix}_c_srcs = ["
+        libvpx_srcs_txt_to_c_srcs tiny_ssim_srcs_$1.txt "\\.c$" ""
+        echo "]"
+        echo
         ;;
     esac
     echo
