@@ -465,3 +465,18 @@ cc_binary {
         },
     },
 }
+
+cc_binary {
+    name: "tiny_ssim",
+    defaults: ["libvpx_defaults"],
+    vendor_available: true,
+
+    arch: {
+        arm64: {
+            srcs: tiny_ssim_arm64_c_srcs,
+        },
+        x86_64: {
+            srcs: tiny_ssim_x86_64_c_srcs,
+        },
+    },
+}
