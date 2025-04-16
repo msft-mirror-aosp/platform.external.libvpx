@@ -172,18 +172,6 @@ function libvpxrc_srcs_txt_to_cc_srcs {
   grep ".cc$" $1 | awk '$0="\""$0"\","' | sort
 }
 
-# Extract a list of C++ sources from a vpxdec_srcs.txt file
-# and filters out the files from third-party library folders
-# (libwebm and libyuv).
-# $1 - path to vpxdec_srcs.txt
-function vpxdec_srcs_txt_to_cc_srcs {
-  local negative_patterns=(-e "^third_party/libwebm/" -e "^third_party/libyuv/")
-  grep ".cc$" $1 \
-    | grep -v "${negative_patterns[@]}" \
-    | awk '$0="\""$0"\","' \
-    | sort
-}
-
 # Extract a list of ASM sources from a libvpx_srcs.txt file
 # $1 - path to libvpx_srcs.txt
 function libvpx_srcs_txt_to_asm_srcs {
@@ -269,7 +257,9 @@ function gen_bp_srcs {
         echo "]"
         echo
         echo "${varprefix}_cc_srcs = ["
-        vpxdec_srcs_txt_to_cc_srcs vpxdec_srcs_$1.txt
+        negative_pattern="^third_party/libwebm/\|^third_party/libyuv/"
+        libvpx_srcs_txt_to_c_srcs vpxdec_srcs_$1.txt "\\.cc$" \
+          "${negative_pattern}"
         echo "]"
         ;;
     esac
