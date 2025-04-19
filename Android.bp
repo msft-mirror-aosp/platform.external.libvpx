@@ -531,6 +531,13 @@ vpxdec_arm64_cc_srcs = [
     "webmdec.cc",
 ]
 
+tiny_ssim_arm64_c_srcs = [
+    "tools/tiny_ssim.c",
+    "vpx/src/vpx_image.c",
+    "vpx_mem/vpx_mem.c",
+    "y4minput.c",
+]
+
 libvpx_generic_c_srcs = [
     "config/generic/vpx_config.c",
     "vp8/common/alloccommon.c",
@@ -1407,6 +1414,13 @@ vpxdec_x86_64_cc_srcs = [
     "webmdec.cc",
 ]
 
+tiny_ssim_x86_64_c_srcs = [
+    "tools/tiny_ssim.c",
+    "vpx/src/vpx_image.c",
+    "vpx_mem/vpx_mem.c",
+    "y4minput.c",
+]
+
 package {
     default_applicable_licenses: ["external_libvpx_license"],
 }
@@ -1871,6 +1885,21 @@ cc_binary {
         x86_64: {
             srcs: vpxdec_x86_64_c_srcs +
                 vpxdec_x86_64_cc_srcs,
+        },
+    },
+}
+
+cc_binary {
+    name: "tiny_ssim",
+    defaults: ["libvpx_defaults"],
+    vendor_available: true,
+
+    arch: {
+        arm64: {
+            srcs: tiny_ssim_arm64_c_srcs,
+        },
+        x86_64: {
+            srcs: tiny_ssim_x86_64_c_srcs,
         },
     },
 }
