@@ -7,16 +7,16 @@ description: "Android fork of the libvpx library."
 third_party {
   license_type: NOTICE
   security {
-    tag: "NVD-CPE2.3:cpe:/a:webmproject:libvpx:-"
+    tag: "NVD-CPE2.3:cpe:/a:webmproject:libvpx:1.15.2"
   }
   last_upgrade_date {
     year: 2025
-    month: 4
-    day: 10
+    month: 8
+    day: 1
   }
   identifier {
     type: "Git"
     value: "https://chromium.googlesource.com/webm/libvpx"
-    version: "v1.15.1"
+    version: "v1.15.2"
   }
 }
