@@ -218,6 +218,10 @@ void vp8_sixtap_predict8x8_sse2(unsigned char *src, int src_pitch, int xofst, in
 void vp8_sixtap_predict8x8_ssse3(unsigned char *src, int src_pitch, int xofst, int yofst, unsigned char *dst, int dst_pitch);
 #define vp8_sixtap_predict8x8 vp8_sixtap_predict8x8_ssse3
 
+void vp8_temporal_filter_apply_c(unsigned char *frame1, unsigned int stride, unsigned char *frame2, unsigned int block_size, int strength, int filter_weight, unsigned int *accumulator, unsigned short *count);
+void vp8_temporal_filter_apply_sse2(unsigned char *frame1, unsigned int stride, unsigned char *frame2, unsigned int block_size, int strength, int filter_weight, unsigned int *accumulator, unsigned short *count);
+#define vp8_temporal_filter_apply vp8_temporal_filter_apply_sse2
+
 void vp8_rtcd(void);
 
 #ifdef RTCD_C

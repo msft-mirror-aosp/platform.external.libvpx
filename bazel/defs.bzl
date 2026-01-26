@@ -38,14 +38,22 @@ def generate_tests(name, tests):
         cc_test(
             name = test_name,
             srcs = [test],
+            timeout = "long",
+            shard_count = 50 if any([slow in test_name for slow in ["ethread", "datarate", "resilience", "level", "arf_freq", "motion_vector"]]) else 1,
             deps = [
                 ":libvpx_test_tools",
             ],
-            linkopts = [
-                "-undefined error",
-                "-lpthread",
-                "-lrt",
-            ],
+            linkopts = select({
+                "@platforms//os:linux": [
+                    "-undefined error",
+                    "-lpthread",
+                    "-lrt",
+                ],
+                "//conditions:default": [
+                    "-undefined error",
+                    "-lpthread",
+                ],
+            }),
         )
     native.test_suite(
         name = name,

@@ -53,7 +53,13 @@ fs::path RunfilesPath(const std::string &path) {
 
   // We expect @libvpx_test_vectors to be the workspace root for data.
   std::string workspace = "libvpx_test_vectors";
-  return runfiles->Rlocation(workspace + "/" + path);
+  auto path1 = runfiles->Rlocation(workspace + "/" + path);
+  if (std::filesystem::exists(path1)) {
+      return path1;
+  }
+  
+  std::string canonical_workspace = "libvpx_test_data++libvpx_test_data+libvpx_test_vectors";
+  return runfiles->Rlocation(canonical_workspace + "/" + path);
 }
 
 int main(int argc, char **argv) {

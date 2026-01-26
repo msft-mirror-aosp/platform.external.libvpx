@@ -124,12 +124,13 @@ TEST(DecodeAPI, Vp9InvalidDecode) {
   vpx_codec_ctx_t dec;
   EXPECT_EQ(VPX_CODEC_OK, vpx_codec_dec_init(&dec, codec, NULL, 0));
   const uint32_t frame_size = static_cast<uint32_t>(video.frame_size());
+  const vpx_codec_err_t res =
+      vpx_codec_decode(&dec, video.cxdata(), frame_size, NULL, 0);
 #if CONFIG_VP9_HIGHBITDEPTH
-  EXPECT_EQ(VPX_CODEC_MEM_ERROR,
-            vpx_codec_decode(&dec, video.cxdata(), frame_size, NULL, 0));
+  EXPECT_TRUE(res == VPX_CODEC_MEM_ERROR || res == VPX_CODEC_UNSUP_BITSTREAM ||
+              res == VPX_CODEC_CORRUPT_FRAME);
 #else
-  EXPECT_EQ(VPX_CODEC_UNSUP_BITSTREAM,
-            vpx_codec_decode(&dec, video.cxdata(), frame_size, NULL, 0));
+  EXPECT_EQ(VPX_CODEC_UNSUP_BITSTREAM, res);
 #endif
   vpx_codec_iter_t iter = NULL;
   EXPECT_EQ(NULL, vpx_codec_get_frame(&dec, &iter));

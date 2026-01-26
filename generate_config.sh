@@ -239,7 +239,7 @@ cp -R $LIBVPX_SRC_DIR $TEMP_DIR
 cd $TEMP_DIR
 
 echo "Generate config files."
-all_platforms="--enable-external-build --enable-realtime-only --enable-pic"
+all_platforms="--enable-external-build --enable-pic"
 all_platforms+=" --disable-runtime-cpu-detect --disable-install-docs"
 all_platforms+=" --size-limit=4096x3072 --enable-vp9-highbitdepth"
 intel="--disable-sse4_1 --disable-avx --disable-avx2 --disable-avx512 --as=yasm"
@@ -331,7 +331,9 @@ rm -f $BASE_DIR/Android.bp
   cat config_*.bp
   cat $BASE_DIR/Android.bp.in
 ) > $BASE_DIR/Android.bp
-bpfmt -w $BASE_DIR/Android.bp
+if which bpfmt > /dev/null; then
+  bpfmt -w $BASE_DIR/Android.bp
+fi
 
 echo "Remove temporary directory."
 cd $BASE_DIR

@@ -174,6 +174,7 @@ nasm_cc_library(
     }),
     includes = INCLUDE_CFG + ["libvpx"],
     linkstatic = True,
+    target_compatible_with = ["@platforms//cpu:x86_64"],
 )
 
 # Note that this is a libvpx encoder configured for realtime encoding.
@@ -196,10 +197,13 @@ cc_library(
         "//conditions:default": [],
     }),
     includes = INCLUDE_CFG + ["libvpx"],
-    linkopts = [
-        "-lpthread",
-        "-lrt",
-    ],
+    linkopts = select({
+        "@platforms//os:linux": [
+            "-lpthread",
+            "-lrt",
+        ],
+        "//conditions:default": ["-lpthread"],
+    }),
     linkstatic = 1,
     deps = ["@libyuv"] +
            select({
@@ -209,9 +213,6 @@ cc_library(
 )
 
 TESTS = [
-    "libvpx/third_party/googletest/src/src/gtest-death-test.cc",
-    "libvpx/third_party/googletest/src/src/gtest.cc",
-    "libvpx/third_party/googletest/src/src/gtest-typed-test.cc",
     "libvpx/test/vp8_fdct4x4_test.cc",
     "libvpx/test/comp_avg_pred_test.cc",
     "libvpx/test/vpx_scale_test.cc",
@@ -322,10 +323,13 @@ cc_library(
         "libvpx/third_party/googletest/src",
         "libvpx/third_party/googletest/src/include",
     ],
-    linkopts = [
-        "-lpthread",
-        "-lrt",
-    ],
+    linkopts = select({
+        "@platforms//os:linux": [
+            "-lpthread",
+            "-lrt",
+        ],
+        "//conditions:default": ["-lpthread"],
+    }),
     deps = [
         ":libvpx",
         "@bazel_tools//tools/cpp/runfiles",
