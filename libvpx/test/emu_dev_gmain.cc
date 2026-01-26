@@ -51,8 +51,8 @@ fs::path RunfilesPath(const std::string &path) {
     exit(1);
   }
 
-  // We expect @libvpx to be the workspace root.
-  std::string workspace = "libvpx";
+  // We expect @libvpx_test_vectors to be the workspace root for data.
+  std::string workspace = "libvpx_test_vectors";
   return runfiles->Rlocation(workspace + "/" + path);
 }
 
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
   // We do this by fetching a "known" existing file in the runfiles and
   // resolving the directory path.
   auto vpx_root =
-      RunfilesPath("vp90-2-02-size-16x64.webm").parent_path().string();
+      RunfilesPath("hantro_collage_w352h288.yuv").parent_path().string();
 
 #ifdef _WIN32
   SetEnvironmentVariableW(L"LIBVPX_TEST_DATA_PATH", vpx_root.c_str());
