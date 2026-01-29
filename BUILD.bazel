@@ -113,7 +113,7 @@ DEFAULT_COPTS = [
 
 INCLUDE_CFG = ["config"] + select({
     ":linux_x86_64": ["config/x86_64"],
-    ":windows_x86_64": ["config/x86_64"],
+    ":windows_x86_64": ["config/win-x86_64"],
     ":osx_apple": ["config/arm64"],
 })
 
@@ -128,13 +128,13 @@ HDRS_CFG = select({
         "config/x86_64/vpx_version.h",
     ],
     ":windows_x86_64": [
-        "config/x86_64/vp8_rtcd.h",
-        "config/x86_64/vp9_rtcd.h",
-        "config/x86_64/vpx_config.h",
-        "config/x86_64/vpx_config.asm",
-        "config/x86_64/vpx_dsp_rtcd.h",
-        "config/x86_64/vpx_scale_rtcd.h",
-        "config/x86_64/vpx_version.h",
+        "config/win-x86_64/vp8_rtcd.h",
+        "config/win-x86_64/vp9_rtcd.h",
+        "config/win-x86_64/vpx_config.h",
+        "config/win-x86_64/vpx_config.asm",
+        "config/win-x86_64/vpx_dsp_rtcd.h",
+        "config/win-x86_64/vpx_scale_rtcd.h",
+        "config/win-x86_64/vpx_version.h",
     ],
     ":osx_apple": [
         "config/arm64/vpx_config.h",
@@ -151,7 +151,7 @@ ASM_HDRS_CFG = select({
         "config/x86_64/vpx_config.asm",
     ],
     ":windows_x86_64": [
-        "config/x86_64/vpx_config.asm",
+        "config/win-x86_64/vpx_config.asm",
     ],
     ":osx_apple": [],
 })
