@@ -19,13 +19,21 @@ package(
 
 license(
     name = "license",
+    package_name = "libvpx",
+    copyright_notice = "Copyright (c) 2010, The WebM Project authors. All rights reserved.",
     license_kinds = [
         "@rules_license//licenses/spdx:BSD-3-Clause",
     ],
-    visibility = [":__subpackages__"],
+    license_text = "NOTICE",
+    visibility = ["//visibility:public"],
 )
 
-exports_files(["libvpx/test/test-data.sha1"])
+licenses(["notice"])
+
+exports_files([
+    "NOTICE",
+    "libvpx/test/test-data.sha1",
+])
 
 config_setting(
     name = "linux_aarch64",
