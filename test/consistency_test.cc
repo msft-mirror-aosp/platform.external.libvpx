@@ -128,7 +128,7 @@ class ConsistencyTestBase : public ::testing::Test {
 };
 
 #if CONFIG_VP9_ENCODER
-using ConsistencyParam = std::tuple<int, int>;
+typedef std::tuple<int, int> ConsistencyParam;
 class ConsistencyVP9Test
     : public ConsistencyTestBase,
       public ::testing::WithParamInterface<ConsistencyParam> {

@@ -26,11 +26,12 @@ extern "C" {
 #define NOMINMAX
 #undef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#include <errno.h>    // NOLINT
 #include <process.h>  // NOLINT
 #include <stddef.h>   // NOLINT
 #include <windows.h>  // NOLINT
 typedef HANDLE pthread_t;
-typedef SRWLOCK pthread_mutex_t;
+typedef CRITICAL_SECTION pthread_mutex_t;
 
 #if _WIN32_WINNT < 0x0600
 #error _WIN32_WINNT must target Windows Vista / Server 2008 or newer.
@@ -80,7 +81,8 @@ static INLINE int pthread_create(pthread_t *const thread, const void *attr,
 
 static INLINE int pthread_join(pthread_t thread, void **value_ptr) {
   (void)value_ptr;
-  return (WaitForSingleObject(thread, INFINITE) != WAIT_OBJECT_0 ||
+  return (WaitForSingleObjectEx(thread, INFINITE, FALSE /*bAlertable*/) !=
+              WAIT_OBJECT_0 ||
           CloseHandle(thread) == 0);
 }
 
@@ -88,22 +90,26 @@ static INLINE int pthread_join(pthread_t thread, void **value_ptr) {
 static INLINE int pthread_mutex_init(pthread_mutex_t *const mutex,
                                      void *mutexattr) {
   (void)mutexattr;
-  InitializeSRWLock(mutex);
+  InitializeCriticalSectionEx(mutex, 0 /*dwSpinCount*/, 0 /*Flags*/);
   return 0;
 }
 
+static INLINE int pthread_mutex_trylock(pthread_mutex_t *const mutex) {
+  return TryEnterCriticalSection(mutex) ? 0 : EBUSY;
+}
+
 static INLINE int pthread_mutex_lock(pthread_mutex_t *const mutex) {
-  AcquireSRWLockExclusive(mutex);
+  EnterCriticalSection(mutex);
   return 0;
 }
 
 static INLINE int pthread_mutex_unlock(pthread_mutex_t *const mutex) {
-  ReleaseSRWLockExclusive(mutex);
+  LeaveCriticalSection(mutex);
   return 0;
 }
 
 static INLINE int pthread_mutex_destroy(pthread_mutex_t *const mutex) {
-  (void)mutex;
+  DeleteCriticalSection(mutex);
   return 0;
 }
 
@@ -132,7 +138,8 @@ static INLINE int pthread_cond_broadcast(pthread_cond_t *const condition) {
 
 static INLINE int pthread_cond_wait(pthread_cond_t *const condition,
                                     pthread_mutex_t *const mutex) {
-  const int ok = SleepConditionVariableSRW(condition, mutex, INFINITE, 0);
+  int ok;
+  ok = SleepConditionVariableCS(condition, mutex, INFINITE);
   return !ok;
 }
 #else                 // _WIN32

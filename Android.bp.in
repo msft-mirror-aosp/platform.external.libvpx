@@ -80,14 +80,6 @@ cc_defaults {
     },
 }
 
-cc_defaults {
-    name: "libvpx_fuzz_defaults",
-
-    cflags: [
-        "-DFUZZER_DISABLE_NALLOC",
-    ],
-}
-
 cc_library_static {
     name: "libvpx_avx",
     defaults: ["libvpx_defaults"],
@@ -426,10 +418,7 @@ cc_library_headers {
 
 cc_fuzz {
     name: "vp9_dec_fuzzer",
-    defaults: [
-        "libvpx_defaults",
-        "libvpx_fuzz_defaults",
-    ],
+    defaults: [ "libvpx_defaults" ],
     host_supported: true,
     srcs: [
         "examples/vpx_dec_fuzzer.cc",
@@ -443,10 +432,7 @@ cc_fuzz {
 
 cc_fuzz {
     name: "vp8_dec_fuzzer",
-    defaults: [
-        "libvpx_defaults",
-        "libvpx_fuzz_defaults",
-    ],
+    defaults: [ "libvpx_defaults" ],
     host_supported: true,
     srcs: [
         "examples/vpx_dec_fuzzer.cc",

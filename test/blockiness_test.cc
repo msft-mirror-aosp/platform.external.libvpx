@@ -139,7 +139,7 @@ class BlockinessTestBase : public ::testing::Test {
 };
 
 #if CONFIG_VP9_ENCODER
-using BlockinessParam = std::tuple<int, int>;
+typedef std::tuple<int, int> BlockinessParam;
 class BlockinessVP9Test
     : public BlockinessTestBase,
       public ::testing::WithParamInterface<BlockinessParam> {
