@@ -36,29 +36,29 @@ const int kNumCoeffs = 1024;
 const int number_of_iterations = 10000;
 
 #if CONFIG_VP9_HIGHBITDEPTH
-using Pixel = uint16_t;
+typedef uint16_t Pixel;
 #define PIXEL_WIDTH 16
 
-using loop_op_t = void (*)(Pixel *s, int p, const uint8_t *blimit,
-                           const uint8_t *limit, const uint8_t *thresh, int bd);
-using dual_loop_op_t = void (*)(Pixel *s, int p, const uint8_t *blimit0,
-                                const uint8_t *limit0, const uint8_t *thresh0,
-                                const uint8_t *blimit1, const uint8_t *limit1,
-                                const uint8_t *thresh1, int bd);
+typedef void (*loop_op_t)(Pixel *s, int p, const uint8_t *blimit,
+                          const uint8_t *limit, const uint8_t *thresh, int bd);
+typedef void (*dual_loop_op_t)(Pixel *s, int p, const uint8_t *blimit0,
+                               const uint8_t *limit0, const uint8_t *thresh0,
+                               const uint8_t *blimit1, const uint8_t *limit1,
+                               const uint8_t *thresh1, int bd);
 #else
-using Pixel = uint8_t;
+typedef uint8_t Pixel;
 #define PIXEL_WIDTH 8
 
-using loop_op_t = void (*)(Pixel *s, int p, const uint8_t *blimit,
-                           const uint8_t *limit, const uint8_t *thresh);
-using dual_loop_op_t = void (*)(Pixel *s, int p, const uint8_t *blimit0,
-                                const uint8_t *limit0, const uint8_t *thresh0,
-                                const uint8_t *blimit1, const uint8_t *limit1,
-                                const uint8_t *thresh1);
+typedef void (*loop_op_t)(Pixel *s, int p, const uint8_t *blimit,
+                          const uint8_t *limit, const uint8_t *thresh);
+typedef void (*dual_loop_op_t)(Pixel *s, int p, const uint8_t *blimit0,
+                               const uint8_t *limit0, const uint8_t *thresh0,
+                               const uint8_t *blimit1, const uint8_t *limit1,
+                               const uint8_t *thresh1);
 #endif  // CONFIG_VP9_HIGHBITDEPTH
 
-using loop8_param_t = std::tuple<loop_op_t, loop_op_t, int>;
-using dualloop8_param_t = std::tuple<dual_loop_op_t, dual_loop_op_t, int>;
+typedef std::tuple<loop_op_t, loop_op_t, int> loop8_param_t;
+typedef std::tuple<dual_loop_op_t, dual_loop_op_t, int> dualloop8_param_t;
 
 void InitInput(Pixel *s, Pixel *ref_s, ACMRandom *rnd, const uint8_t limit,
                const int mask, const int32_t p, const int i) {

@@ -22,7 +22,7 @@
 namespace svc_test {
 namespace {
 
-enum INTER_LAYER_PRED {
+typedef enum {
   // Inter-layer prediction is on on all frames.
   INTER_LAYER_PRED_ON,
   // Inter-layer prediction is off on all frames.
@@ -33,7 +33,7 @@ enum INTER_LAYER_PRED {
   // that any layer S (> 0) can only predict from previous spatial
   // layer S-1, from the same superframe.
   INTER_LAYER_PRED_ON_CONSTRAINED
-};
+} INTER_LAYER_PRED;
 
 class ScalePartitionOnePassCbrSvc
     : public OnePassCbrSvc,

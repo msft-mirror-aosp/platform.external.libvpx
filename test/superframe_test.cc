@@ -20,7 +20,7 @@ namespace {
 
 const int kTestMode = 0;
 
-using SuperframeTestParam = std::tuple<libvpx_test::TestMode, int>;
+typedef std::tuple<libvpx_test::TestMode, int> SuperframeTestParam;
 
 class SuperframeTest
     : public ::libvpx_test::EncoderTest,

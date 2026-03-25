@@ -24,11 +24,11 @@ namespace {
 
 static const int kNoiseSize = 3072;
 
-using AddNoiseFunc = void (*)(uint8_t *start, const int8_t *noise,
-                              int blackclamp, int whiteclamp, int width,
-                              int height, int pitch);
+typedef void (*AddNoiseFunc)(uint8_t *start, const int8_t *noise,
+                             int blackclamp, int whiteclamp, int width,
+                             int height, int pitch);
 
-using AddNoiseTestFPParam = std::tuple<double, AddNoiseFunc>;
+typedef std::tuple<double, AddNoiseFunc> AddNoiseTestFPParam;
 
 class AddNoiseTest : public ::testing::Test,
                      public ::testing::WithParamInterface<AddNoiseTestFPParam> {

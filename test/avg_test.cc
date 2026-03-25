@@ -94,9 +94,9 @@ class AverageTestBase : public ::testing::Test {
 
   ACMRandom rnd_;
 };
-using AverageFunction = unsigned int (*)(const uint8_t *s, int pitch);
+typedef unsigned int (*AverageFunction)(const uint8_t *s, int pitch);
 
-using AvgFunc = std::tuple<int, int, int, int, AverageFunction>;
+typedef std::tuple<int, int, int, int, AverageFunction> AvgFunc;
 
 class AverageTest : public AverageTestBase<uint8_t>,
                     public ::testing::WithParamInterface<AvgFunc> {
@@ -153,10 +153,10 @@ class AverageTestHBD : public AverageTestBase<uint16_t>,
 #endif  // CONFIG_VP9_HIGHBITDEPTH
 
 #if HAVE_NEON || HAVE_SSE2 || HAVE_MSA
-using IntProRowFunc = void (*)(int16_t hbuf[16], uint8_t const *ref,
-                               const int ref_stride, const int height);
+typedef void (*IntProRowFunc)(int16_t hbuf[16], uint8_t const *ref,
+                              const int ref_stride, const int height);
 
-using IntProRowParam = std::tuple<int, IntProRowFunc, IntProRowFunc>;
+typedef std::tuple<int, IntProRowFunc, IntProRowFunc> IntProRowParam;
 
 class IntProRowTest : public AverageTestBase<uint8_t>,
                       public ::testing::WithParamInterface<IntProRowParam> {
@@ -205,9 +205,9 @@ class IntProRowTest : public AverageTestBase<uint8_t>,
 };
 GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(IntProRowTest);
 
-using IntProColFunc = int16_t (*)(uint8_t const *ref, const int width);
+typedef int16_t (*IntProColFunc)(uint8_t const *ref, const int width);
 
-using IntProColParam = std::tuple<int, IntProColFunc, IntProColFunc>;
+typedef std::tuple<int, IntProColFunc, IntProColFunc> IntProColParam;
 
 class IntProColTest : public AverageTestBase<uint8_t>,
                       public ::testing::WithParamInterface<IntProColParam> {
@@ -233,8 +233,8 @@ class IntProColTest : public AverageTestBase<uint8_t>,
 GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(IntProColTest);
 #endif  // HAVE_NEON || HAVE_SSE2 || HAVE_MSA
 
-using SatdFunc = int (*)(const tran_low_t *coeffs, int length);
-using SatdTestParam = std::tuple<int, SatdFunc>;
+typedef int (*SatdFunc)(const tran_low_t *coeffs, int length);
+typedef std::tuple<int, SatdFunc> SatdTestParam;
 
 class SatdTest : public ::testing::Test,
                  public ::testing::WithParamInterface<SatdTestParam> {
@@ -285,9 +285,9 @@ class SatdLowbdTest : public SatdTest {
   }
 };
 
-using BlockErrorFunc = int64_t (*)(const tran_low_t *coeff,
-                                   const tran_low_t *dqcoeff, int block_size);
-using BlockErrorTestFPParam = std::tuple<int, BlockErrorFunc>;
+typedef int64_t (*BlockErrorFunc)(const tran_low_t *coeff,
+                                  const tran_low_t *dqcoeff, int block_size);
+typedef std::tuple<int, BlockErrorFunc> BlockErrorTestFPParam;
 
 class BlockErrorTestFP
     : public ::testing::Test,

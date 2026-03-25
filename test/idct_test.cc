@@ -18,9 +18,9 @@
 #include "test/register_state_check.h"
 #include "vpx/vpx_integer.h"
 
-using IdctFunc = void (*)(int16_t *input, unsigned char *pred_ptr,
-                          int pred_stride, unsigned char *dst_ptr,
-                          int dst_stride);
+typedef void (*IdctFunc)(int16_t *input, unsigned char *pred_ptr,
+                         int pred_stride, unsigned char *dst_ptr,
+                         int dst_stride);
 namespace {
 
 using libvpx_test::Buffer;
